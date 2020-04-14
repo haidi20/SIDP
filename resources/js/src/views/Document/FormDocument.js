@@ -25,6 +25,7 @@ const formDocument = () => {
     });
     const [job, setJob]                     = useState({});
     const [activity, setActivity]           = useState({});
+    const [formatDate, setFormatDate]       = useState('YYYY-MM-DD');
     const [letterQueue, setLetterQueue]     = useState(0);
     const [numberLetter, setNumberLetter]   = useState('');
     const [timeInCharge, setTimeInCharge]   = useState();
@@ -39,8 +40,8 @@ const formDocument = () => {
     });
 
     useEffect(() => {
-        setValue('time_in_charge', moment().format('YYYY-MM-DD'));
-        setTimeInCharge(moment().format('YYYY-MM-DD'));
+        setValue('time_in_charge', moment().format(formatDate));
+        setTimeInCharge(moment().format(formatDate));
     }, []);
 
     useEffect(() => {
@@ -79,7 +80,7 @@ const formDocument = () => {
 
     const handleSetTimeInCharge = e => {
         if(e !== null){
-            setTimeInCharge(moment(e).format('YYYY-MM-DD'));
+            setTimeInCharge(moment(e).format(formatDate));
         }
     }
     
