@@ -15,4 +15,4 @@ You can follow the following step to configure this project
 - And run command ```$ php artisan serve``` and take a look at "localhost:8000" in browser
 
 my custom is :
-- Datatable i change use react-hook.
+- Datatable change use react-hook.
