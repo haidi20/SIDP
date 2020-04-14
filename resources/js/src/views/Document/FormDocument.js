@@ -26,7 +26,7 @@ const formDocument = () => {
     const [job, setJob]                     = useState({});
     const [activity, setActivity]           = useState({});
     const [formatDate, setFormatDate]       = useState('YYYY-MM-DD');
-    const [letterQueue, setLetterQueue]     = useState(0);
+    const [sequenceLetter, setSequenceLetter]= useState(0);
     const [numberLetter, setNumberLetter]   = useState('');
     const [timeInCharge, setTimeInCharge]   = useState();
     const [contractValue, setContractValue] = useState();
@@ -46,7 +46,7 @@ const formDocument = () => {
 
     useEffect(() => {
         handleNumberLetter();
-    }, [timeInCharge, activity, numberLetter, letterQueue, job]);
+    }, [timeInCharge, activity, numberLetter, sequenceLetter, job]);
 
     const handleNumberLetter = () => {
         let year            = moment(timeInCharge).format('YY');
@@ -59,7 +59,7 @@ const formDocument = () => {
                                 ? job.lastCode
                                 : '00.00';
 
-        let resultNumberLetter = 'No.'+month+date+letterQueue;
+        let resultNumberLetter = 'No.'+month+date+sequenceLetter;
         resultNumberLetter    += '/BA-PPHP/DP/'+codeJob+'/'+codeActivity;
         resultNumberLetter    += '/'+month+'/'+year;
         // setNumberLetter(resultNumberLetter);
@@ -125,10 +125,32 @@ const formDocument = () => {
         let number = formatRupiah(e.target.value, 'Rp. ');
         e.target.value = number;
     }
+
+    useEffect(() => {
+        fetchSequenceLetter();
+    }, [timeInCharge]);
+
+    const fetchSequenceLetter = async () => {
+        await axios({
+            method: 'get',
+            url: Config.baseUrl + '/document/sequence-letter',
+            params:{time_in_charge: timeInCharge},
+        }).then(res => {
+            setSequenceLetter(res.data);
+        }).catch(function (response) {
+            let result = {
+                data: 'Maaf, Ada Kesalahan Sistem',
+                status: 500,
+            }
+
+            Helpers.alert(result);
+        });
+    }
     
     const handleSend = data => {
         // console.log(data);
         data.time_in_charge = timeInCharge;
+        data.sequence_letter= sequenceLetter;
         data.contract_value = Helpers.removeFormatRupiah(data.contract_value);
         const sameChoice = Object
                 .keys(data)
@@ -168,26 +190,6 @@ const formDocument = () => {
                 text: 'Pilihan penanggung jawab ada yang sama.',
             });
         }       
-    }
-
-    useEffect(() => {
-        fetchLetterQueue();
-    }, []);
-
-    const fetchLetterQueue = async () => {
-        await axios({
-            method: 'get',
-            url: Config.baseUrl + '/document/letter-queue',
-        }).then(res => {
-            setLetterQueue(res.data);
-        }).catch(function (response) {
-            let result = {
-                data: 'Maaf, Ada Kesalahan Sistem',
-                status: 500,
-            }
-
-            Helpers.alert(result);
-        });
     }
 
     const handleError = (name, tag) => Helpers.handleError(name, tag, errors, {...state});

@@ -21,7 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['prefix' => 'document', 'name' => 'document.'], function(){
     Route::get('/', 'DocumentsController@index')->name('index');
-    Route::get('/letter-queue', 'DocumentsController@letterQueue')->name('letterQueue');
+    Route::get('/sequence-letter', 'DocumentsController@sequenceLetter')->name('sequenceLetter');
     Route::get('/file/{id}', 'DocumentsController@file')->name('file');
     Route::post('/store', 'DocumentsController@store')->name('store');
     Route::post('/delete/{id}', 'DocumentsController@destroy')->name('delete');

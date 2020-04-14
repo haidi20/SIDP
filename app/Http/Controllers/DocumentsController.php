@@ -19,12 +19,12 @@ class DocumentsController extends Controller
         return DocumentsResource::collection($data);
     }
 
-    public function letterQueue()
+    public function sequenceLetter()
     {
-        $time   = request('time_in_charge') ? Carbon::now() : Carbon::parse(request('time_in_charge'));
+        $time   = request('time_in_charge') ? Carbon::parse(request('time_in_charge')) : Carbon::now();
         $time   = $time->format('Y-m-d');
 
-        $count  = Document::whereDate('created_at', $time)->count();
+        $count  = Document::whereDate('time_in_charge', $time)->value('sequence_letter');
 
         return $count + 1;
     }
@@ -45,6 +45,7 @@ class DocumentsController extends Controller
             $data->information              = request('information');
             $data->number_agreement_letter  = request('number_agreement_letter');
             $data->date_agreement_letter    = request('date_agreement_letter');
+            $data->sequence_letter          = request('sequence_letter');
             $data->file                     = $this->fileNameLetter();
             // return $data;
             $data->save();
