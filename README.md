@@ -1,5 +1,5 @@
 # React-datatable-laravel
-referention project from React-datatable-laravel['https://github.com/madhusudhan1234/React-datatable-laravel.git']
+referention project from ('React-datatable-laravel')['https://github.com/madhusudhan1234/React-datatable-laravel.git']
 
 ## How to Install on Local Environment
 
