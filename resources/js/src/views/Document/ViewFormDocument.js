@@ -164,11 +164,19 @@ const viewFormDocument = (props) => {
                                         />
                                     </div>
                                     <div className="col-sm-6">
-                                        <Input
+                                        {/* <Input
                                             {...props}
                                             required
                                             name="date_agreement_letter"
                                             label="Tanggal Surat Perjanjian/SPK/SPB"
+                                        /> */}
+                                        <Input
+                                            {...props}
+                                            // required
+                                            type="date"
+                                            name="date_agreement_letter"
+                                            label="Tanggal Surat Perjanjian/SPK/SPB"
+                                            onChange={e => props.handleSetDateAgreement(e)}
                                         />
                                     </div>
                                 </div>

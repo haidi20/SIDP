@@ -24,9 +24,13 @@ class DocumentsController extends Controller
         $time   = request('time_in_charge') ? Carbon::parse(request('time_in_charge')) : Carbon::now();
         $time   = $time->format('Y-m-d');
 
-        $count  = Document::whereDate('time_in_charge', $time)->value('sequence_letter');
+        $count  = Document::whereDate('time_in_charge', $time)->first();
 
-        return $count + 1;
+        if($count){
+            return $count->sequence_letter + 1;
+        }else{
+            return 1;
+        }
     }
 
     public function store()
@@ -39,7 +43,6 @@ class DocumentsController extends Controller
             $data->number_letter            = request('number_letter');
             $data->time_in_charge           = request('time_in_charge');
             $data->activity_id              = $this->activity()->value;
-            $data->number_dpa               = request('number_dpa');
             $data->job_id                   = $this->job()->value;
             $data->contract_value           = request('contract_value');
             $data->information              = request('information');

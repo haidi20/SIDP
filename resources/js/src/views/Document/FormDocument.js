@@ -29,6 +29,7 @@ const formDocument = () => {
     const [sequenceLetter, setSequenceLetter]= useState(0);
     const [numberLetter, setNumberLetter]   = useState('');
     const [timeInCharge, setTimeInCharge]   = useState();
+    const [dateAgreement, setDateAgreement] = useState();
     const [contractValue, setContractValue] = useState();
     const [state, setState] = useState({
         person_in_charge: {
@@ -147,11 +148,23 @@ const formDocument = () => {
         });
     }
     
+    useEffect(() => {
+        setDateAgreement(moment().format(formatDate));
+    }, []);
+
+    const handleSetDateAgreement = e => {
+        if(e !== null){
+            setDateAgreement(moment(e).format(formatDate));
+        }
+    }
+    
     const handleSend = data => {
         // console.log(data);
-        data.time_in_charge = timeInCharge;
-        data.sequence_letter= sequenceLetter;
-        data.contract_value = Helpers.removeFormatRupiah(data.contract_value);
+        data.time_in_charge         = timeInCharge;
+        data.contract_value         = Helpers.removeFormatRupiah(data.contract_value);
+        data.sequence_letter        = sequenceLetter;
+        data.date_agreement_letter  = dateAgreement;
+
         const sameChoice = Object
                 .keys(data)
                 .some(item => {
@@ -220,6 +233,7 @@ const formDocument = () => {
         handleSetActivity: e => handleSetActivity(e),
         handleSetTimeInCharge: e => handleSetTimeInCharge(e),
         handleSetContractValue: e => handleSetContractValue(e),
+        handleSetDateAgreement: e => handleSetDateAgreement(e),
         // get data from another table
         fetchWork: Config.baseUrl+'/job/fetch-data',
         fetchActivities: Config.baseUrl+'/activity/fetch-data',
