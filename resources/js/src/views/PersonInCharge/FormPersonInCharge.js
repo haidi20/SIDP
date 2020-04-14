@@ -3,12 +3,11 @@ import { Link, useHistory } from "react-router-dom";
 import { useForm } from 'react-hook-form';
 
 //third party
-import axios from 'axios';
+import axios from '../../supports/Axios';
 //components
 import Input from '../_components/Input/Input';
 // helpers
 import * as Helpers from '../../supports/Helpers';
-import Config from '../../supports/Config';
 
 const formPersonInCharge = props => {
     const history = useHistory();
@@ -29,9 +28,9 @@ const formPersonInCharge = props => {
 
     const setUrl = () => {
         if(props.location.state != undefined){
-            return Config.baseUrl + '/person-in-charge/update/'+data.id;
+            return '/person-in-charge/update/'+data.id;
         }else{
-            return Config.baseUrl + '/person-in-charge/store';
+            return '/person-in-charge/store';
         }
     }
 

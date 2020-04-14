@@ -2,8 +2,6 @@ import React from 'react';
 
 //components
 import DataTable from '../_components/DataTable/DataTable';
-// helpers
-import Config from '../../supports/Config';
 
 const peronInCharge = () => {
     const columns = ['Nama', 'NIP'];
@@ -33,7 +31,7 @@ const peronInCharge = () => {
                                 <DataTable
                                     columns={columns}
                                     nameRoute={nameRoute}
-                                    url={Config.baseUrl + nameRoute} 
+                                    url={nameRoute} 
                                 />
                             </div>
                         </div>

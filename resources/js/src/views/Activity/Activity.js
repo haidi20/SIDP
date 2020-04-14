@@ -2,8 +2,6 @@ import React from 'react';
 
 //components
 import DataTable from '../_components/DataTable/DataTable';
-// helpers
-import Config from '../../supports/Config';
 
 const activity = () => {
     const columns   = ['Nama', 'Kode'];
@@ -31,9 +29,9 @@ const activity = () => {
                         <div className="card">
                             <div className="card-block">
                                 <DataTable
+                                    url={nameRoute} 
                                     columns={columns}
                                     nameRoute={nameRoute}
-                                    url={Config.baseUrl + nameRoute} 
                                 />
                             </div>
                         </div>

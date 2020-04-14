@@ -2,8 +2,6 @@ import React from 'react';
 
 //components
 import DataTable from '../_components/DataTable/DataTable';
-// helpers
-import Config from '../../supports/Config';
 
 const job = () => {
     const columns   = ['Nama', 'Kode'];
@@ -33,7 +31,7 @@ const job = () => {
                                 <DataTable
                                     columns={columns}
                                     nameRoute={nameRoute}
-                                    url={Config.baseUrl + nameRoute} 
+                                    url={nameRoute} 
                                 />
                             </div>
                         </div>

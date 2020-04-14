@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 //cara menggunakan di viewdatatable
 
 //third party
-import axios from 'axios';
+import axios from '../../../supports/Axios';
 import Swal from 'sweetalert2';
 // helpers
 import * as Helpers from '../../../../src/supports/Helpers';
@@ -18,6 +18,7 @@ const DataTable = (props) => {
   const [search, setSearch]             = useState('');
   const [remove, setRemove]             = useState(false);
   const [loading, setLoading]           = useState(true);
+  const [brokenUrl, setBrokenUrl]       = useState(false);
   const [showModal, setShowModal]       = useState(false);
   const [widthAction, setWidthAction]   = useState(100);
   const [clickSearch, setClickSearch]   = useState(false);
@@ -57,22 +58,28 @@ const DataTable = (props) => {
     })
     .then(response => {
         let data = response.data;
-        if(Array.isArray(data) && data.length){
-          setLoading(false);
-          setEmpty(false);
+
+        if(data.data === undefined){
+          console.log('bukan array')
+          setBrokenUrl(true);
         }else{
-          setLoading(false);
-          setEmpty(true);
+          if(Array.isArray(data) && data.length){
+            setLoading(false);
+            setEmpty(false);
+          }else{
+            setLoading(false);
+            setEmpty(true);
+          }
+  
+          if(remove){
+            setRemove(false);
+          }
+          if(clickSearch){
+            setClickSearch(false);
+          }
+  
+          setState({...state, entities: data});
         }
-
-        if(remove){
-          setRemove(false);
-        }
-        if(clickSearch){
-          setClickSearch(false);
-        }
-
-        setState({...state, entities: data});
     })
     .catch(e => {
       console.error(e);
@@ -203,11 +210,11 @@ const DataTable = (props) => {
     return (
       <div className="action">
         {!props.noEdit && <button title="Ubah Data" className="btn btn-sm btn-info" onClick={() => handleEdit(item)}>
-            <i className="icofont icofont-edit icofont-sm"></i>
+            <i className="icofont icofont-edit icofont-md"></i>
           </button>}
         {addButton}
         {!props.noDelete && <button title="Hapus Data" className="btn btn-sm btn-danger" onClick={() => handleDelete(item)}>
-            <i className="icofont icofont-ui-delete icofont-sm"></i>
+            <i className="icofont icofont-ui-delete icofont-md"></i>
           </button>}
       </div>
     )
@@ -300,6 +307,7 @@ const DataTable = (props) => {
   const passing = {
     state: state,
     showModal: showModal,
+    brokenUrl: brokenUrl,
     dataList: value => dataList(value),
     pageList: value => pageList(value),
     setSearch: value => setSearch(value),

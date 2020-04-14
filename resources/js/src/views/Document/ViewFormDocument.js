@@ -164,12 +164,6 @@ const viewFormDocument = (props) => {
                                         />
                                     </div>
                                     <div className="col-sm-6">
-                                        {/* <Input
-                                            {...props}
-                                            required
-                                            name="date_agreement_letter"
-                                            label="Tanggal Surat Perjanjian/SPK/SPB"
-                                        /> */}
                                         <Input
                                             {...props}
                                             // required

@@ -20,6 +20,26 @@ import { Modal, Button } from 'react-bootstrap';
 /> */}
 
 const viewDataTable = (props) => {
+    const messageTable = () => {
+        let message = '';
+        if(props.brokenUrl){
+            message = 'link bermasalah';
+        }else if(props.noData){
+            message = 'data tidak ada';
+        }
+
+        return(
+            <tr>
+                <td colSpan={props.columnList.length + 2} align="center">{message}</td>
+            </tr>
+        )
+    }
+
+    const disabled = () => (
+        props.brokenUrl 
+        ? 'disabled'
+        : ''
+    )
 
     return(
         <div>
@@ -43,7 +63,7 @@ const viewDataTable = (props) => {
             </Modal>
             <div className="row head">
                 <div className="col-md-4">
-                <Link to={props.nameRoute+'-form'} title="Back" className="btn btn-md btn-success" >
+                <Link to={props.nameRoute+'-form'} title="Back" className={`btn btn-md btn-success ${disabled()}`}>
                     <span>Buat</span>
                 </Link>
                 </div>
@@ -57,18 +77,20 @@ const viewDataTable = (props) => {
                 </div>
             </div>
             {
-                props.noData 
-                ? null
-                : <div className="">
+                <div className="">
                     <table className="table table-styling table-sm">
                         <thead>
                             { props.columnList() }
                         </thead>
                         <tbody>
-                            { props.dataList() }
+                            { 
+                                !props.noData && !props.brokenUrl
+                                ? props.dataList() 
+                                : messageTable()
+                            }
                         </tbody>
                     </table>
-                    { (props.state.entities.data && props.state.entities.data.length > 0) &&
+                    { props.noData && props.brokenUrl && (props.state.entities.data && props.state.entities.data.length > 0) &&
                         <nav>
                             <ul className="pagination">
                                 <li className="page-item">
@@ -93,6 +115,9 @@ const viewDataTable = (props) => {
                         </nav>
                     }
                 </div>
+                // props.noData || props.brokenUrl
+                // ? null
+                // : 
             }
         </div>
     )
