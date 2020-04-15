@@ -18,11 +18,11 @@ const formDocument = (props) => {
     const history = useHistory();
     const { register, handleSubmit, watch, errors, setValue } = useForm({
         mode: "onChange",
-        defaultValues:{
-            contract_value: "Rp. 20.000.000",
-            date_agreement_letter: '01 Juni 2019',
-            number_agreement_letter: 'Perjanjian/SPK/SPB 010/SPK/SMP/6/2019',
-        }
+        // defaultValues:{
+        //     contract_value: "Rp. 20.000.000",
+        //     date_agreement_letter: '01 Juni 2019',
+        //     number_agreement_letter: 'Perjanjian/SPK/SPB 010/SPK/SMP/6/2019',
+        // }
     });
     const [job, setJob]                         = useState({});
     const [activity, setActivity]               = useState({});
@@ -82,11 +82,12 @@ const formDocument = (props) => {
     }
 
     const insertFormEdit = data => {
+        console.log(data);
         if(data.person_in_charge_two !== 0){
             setMorePerson(true);
-        }else{
-            console.log('penanggung jawab 1');
         }
+
+        setValue('contract_value', data.set_contract_value);
     }
 
     useEffect(() => {
@@ -108,7 +109,9 @@ const formDocument = (props) => {
         resultNumberLetter    += '/BA-PPHP/DP/'+codeJob+'/'+codeActivity;
         resultNumberLetter    += '/'+month+'/'+year;
 
-        setValue('number_letter', resultNumberLetter);
+        if(props.location.state === undefined){
+            setValue('number_letter', resultNumberLetter);
+        }
     }
 
     const handleSetActivity = e => {

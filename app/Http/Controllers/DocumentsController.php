@@ -37,7 +37,8 @@ class DocumentsController extends Controller
 
     public function edit($id)
     {
-        $data = Document::findOrFail($id);
+        $data = Document::allRelation()
+                        ->findOrFail($id);
 
         return $data;
     }

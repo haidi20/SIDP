@@ -6,6 +6,33 @@ use Illuminate\Database\Eloquent\Model;
 
 class Document extends Model
 {
+    protected $appends = ['set_contract_value'];
+
+    public function job()
+    {
+        return $this->belongsTo('App\Models\Job');
+    }
+
+    public function activity()
+    {
+        return $this->belongsTo('App\Models\Activity');
+    }
+
+    public function personChargeOne()
+    {
+        return $this->belongsTo('App\Models\PersonCharge', 'person_in_charge_one');
+    }
+
+    public function personChargetwo()
+    {
+        return $this->belongsTo('App\Models\PersonCharge', 'person_in_charge_two');
+    }
+
+    public function personChargeThree()
+    {
+        return $this->belongsTo('App\Models\PersonCharge', 'person_in_charge_three');
+    }
+
     public function ableColumnSearch()
     {
         return ['number_letter'];
@@ -16,5 +43,18 @@ class Document extends Model
         foreach($this->ableColumnSearch() as $item){
             $query->orWhere($item, 'like', '%'.request('search').'%');
         }
+    }
+
+    public function scopeAllRelation($query)
+    {
+        return $query->with(
+            'job', 'activity', 
+            'personChargeOne', 'personChargeTwo', 'personChargeThree'
+        );
+    }
+
+    public function getSetContractValueAttribute()
+    {
+        return 'Rp. '.format_money($this->contract_value);
     }
 }
