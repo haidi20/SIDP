@@ -7,16 +7,17 @@ import { useForm } from 'react-hook-form';
 import Config from '../../supports/Config';
 import * as Helpers from '../../supports/Helpers';
 //third party
-import axios from 'axios';
+import axios from '../../supports/Axios';
 import moment from 'moment';
 import Swal from 'sweetalert2';
 
 // views
 import ViewFormDocument from './ViewFormDocument';
 
-const formDocument = () => {
+const formDocument = (props) => {
     const history = useHistory();
     const { register, handleSubmit, watch, errors, setValue } = useForm({
+        mode: "onChange",
         defaultValues:{
             contract_value: "Rp. 20.000.000",
             date_agreement_letter: '01 Juni 2019',
@@ -28,6 +29,7 @@ const formDocument = () => {
     const [formatDate, setFormatDate]           = useState('YYYY-MM-DD');
     const [numberLetter, setNumberLetter]       = useState('');
     const [timeInCharge, setTimeInCharge]       = useState();
+    const [disabledSend, setDisabledSend]       = useState(false);
     const [dateAgreement, setDateAgreement]     = useState();
     const [contractValue, setContractValue]     = useState();
     const [sequenceLetter, setSequenceLetter]   = useState(0);
@@ -41,9 +43,54 @@ const formDocument = () => {
     });
 
     useEffect(() => {
-        setValue('time_in_charge', moment().format(formatDate));
+        handleFormEdit();
         setTimeInCharge(moment().format(formatDate));
+        setValue('time_in_charge', moment().format(formatDate));
     }, []);
+
+    const handleFormEdit = async () => {
+        if(props.location.state != undefined){
+            let data = props.location.state;
+
+            await axios({
+                method: 'get',
+                url: '/document/edit/'+data.id,
+            }).then(response => {
+                let data = response.data;
+
+                if(data === undefined){
+                    let result = {
+                        data: 'Maaf, Ada Kesalahan Sistem',
+                        status: 500,
+                    }
+        
+                    Helpers.alert(result);
+                    setDisabledSend(true);
+                }else{
+                    insertFormEdit(data);
+                }
+            }).catch(function (response) {
+                let result = {
+                    data: 'Maaf, Ada Kesalahan Sistem',
+                    status: 500,
+                }
+    
+                Helpers.alert(result);
+                setDisabledSend(true);
+            });
+        }
+    }
+
+    const insertFormEdit = data => {
+        if(data.person_in_charge_two !== 0){
+            setState({
+                ...state,
+                more_person: true,
+            })
+        }else{
+            console.log('penanggung jawab 1');
+        }
+    }
 
     useEffect(() => {
         handleNumberLetter();
@@ -134,7 +181,7 @@ const formDocument = () => {
     const fetchSequenceLetter = async () => {
         await axios({
             method: 'get',
-            url: Config.baseUrl + '/document/sequence-letter',
+            url: '/document/sequence-letter',
             params:{time_in_charge: timeInCharge},
         }).then(res => {
             setSequenceLetter(res.data);
@@ -165,16 +212,15 @@ const formDocument = () => {
         data.sequence_letter        = sequenceLetter;
         data.date_agreement_letter  = dateAgreement;
 
-        const sameChoice = Object
-                .keys(data)
-                .some(item => {
-                    return Helpers.sameChoice(item, state);
-                });
+        const sameChoice = Object.keys(data)
+                                .some(item => {
+                                    return Helpers.sameChoice(item, state);
+                                });
 
         if(!sameChoice){
             axios({
                 method: 'post',
-                url: Config.baseUrl + '/document/store',
+                url: '/document/store',
                 params: data,
             }).then(res => {
                 let result = res.data;
@@ -228,6 +274,7 @@ const formDocument = () => {
         handleChoosePerson:(value, name) => handleChoosePerson(value, name),
         // another state all
         numberLetter: numberLetter,
+        disabledSend: disabledSend,
         contractValue: contractValue,
         handleSetJob: e => handleSetJob(e),
         handleSetActivity: e => handleSetActivity(e),

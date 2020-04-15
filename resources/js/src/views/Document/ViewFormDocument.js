@@ -13,6 +13,22 @@ import './ViewFormDocument.scss';
 import ViewFormPersonInCharge from './Partials/ViewFormPersonInCharge';
 
 const viewFormDocument = (props) => {
+    const handleDisabledSend = () => {
+
+        document.getElementsByClassName("mySubmit").disabled = true;
+        return props.disabledSend ? 'disabled' : '';
+    }
+
+    const handleSend = (e) => {
+        if(props.disabledSend){
+            console.log('masuk disabled send');
+            e.preventDefault();
+        }
+
+        console.log('lewat disabled');
+        return props.handleSubmit(props.handleSend);
+    }
+
     return(
         <div>
             <div className="page-header">
@@ -53,7 +69,7 @@ const viewFormDocument = (props) => {
                                             </div>
                                             <div className="radio radio-inline">
                                                 <label>
-                                                    <input type="radio" name="person" ref={props.register} defaultValue="3" onChange={e => props.handleFormPerson(3)} />
+                                                    <input type="radio" name="person" ref={props.register} defaultValue="3" onChange={e => props.handleFormPerson(3)} checked={props.morePerson} />
                                                     <i className="helper" />3 Orang
                                                 </label>
                                             </div>
@@ -175,7 +191,12 @@ const viewFormDocument = (props) => {
                                     </div>
                                 </div>
                                 &nbsp; 
-                                <input type="submit" className="btn btn-md btn-success" value="kirim" />
+                                    <input 
+                                        value="kirim" 
+                                        type="submit" 
+                                        disabled={props.disabledSend} 
+                                        className={`btn btn-md btn-success btn-send ${handleDisabledSend()}`} 
+                                    />
                                 </form>
                             </div>
                         </div>

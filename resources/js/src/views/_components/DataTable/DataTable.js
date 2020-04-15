@@ -191,7 +191,7 @@ const DataTable = (props) => {
           !props.usePopup 
           ? allButtonAction(item)
           : <button title="Kumpulan Tombol Action" className="btn btn-sm btn-success" onClick={() => handlePopup(item)}>
-              Actions
+              Details
             </button>
         }
         

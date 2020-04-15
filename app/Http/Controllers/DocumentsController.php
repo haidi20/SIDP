@@ -24,13 +24,22 @@ class DocumentsController extends Controller
         $time   = request('time_in_charge') ? Carbon::parse(request('time_in_charge')) : Carbon::now();
         $time   = $time->format('Y-m-d');
 
-        $count  = Document::whereDate('time_in_charge', $time)->first();
+        $count  = Document::whereDate('time_in_charge', $time)
+                            ->orderBy('created_at', 'desc')
+                            ->first();
 
         if($count){
             return $count->sequence_letter + 1;
         }else{
             return 1;
         }
+    }
+
+    public function edit($id)
+    {
+        $data = Document::findOrFail($id);
+
+        return $data;
     }
 
     public function store()
