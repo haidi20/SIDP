@@ -27,6 +27,7 @@ const formDocument = (props) => {
     const [job, setJob]                         = useState({});
     const [activity, setActivity]               = useState({});
     const [formatDate, setFormatDate]           = useState('YYYY-MM-DD');
+    const [morePerson, setMorePerson]           = useState(false);
     const [numberLetter, setNumberLetter]       = useState('');
     const [timeInCharge, setTimeInCharge]       = useState();
     const [disabledSend, setDisabledSend]       = useState(false);
@@ -38,8 +39,7 @@ const formDocument = (props) => {
             person_in_charge_one: null,
             person_in_charge_two: null,
             person_in_charge_three: null,
-        },
-        more_person: false,
+        }
     });
 
     useEffect(() => {
@@ -83,10 +83,7 @@ const formDocument = (props) => {
 
     const insertFormEdit = data => {
         if(data.person_in_charge_two !== 0){
-            setState({
-                ...state,
-                more_person: true,
-            })
+            setMorePerson(true);
         }else{
             console.log('penanggung jawab 1');
         }
@@ -163,9 +160,10 @@ const formDocument = (props) => {
                 person_in_charge_one: null,
                 person_in_charge_two: null,
                 person_in_charge_three: null,
-            },
-            more_person: !state.more_person
+            }
         });
+
+        setMorePerson(!morePerson);
     }
 
     const handleSetContractValue = e => {
@@ -273,6 +271,7 @@ const formDocument = (props) => {
         handleContractValue: value => handleContractValue(value),
         handleChoosePerson:(value, name) => handleChoosePerson(value, name),
         // another state all
+        morePerson: morePerson,
         numberLetter: numberLetter,
         disabledSend: disabledSend,
         contractValue: contractValue,

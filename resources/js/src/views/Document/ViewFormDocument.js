@@ -29,6 +29,11 @@ const viewFormDocument = (props) => {
         return props.handleSubmit(props.handleSend);
     }
 
+    const handleChecked = async () => {
+        console.log(props.morePerson);
+        await props.morePerson ? true : false;
+    }
+
     return(
         <div>
             <div className="page-header">
