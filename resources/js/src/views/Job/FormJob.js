@@ -35,15 +35,25 @@ const formPersonInCharge = props => {
     }, []);
 
     useEffect(() => {
+        handleName();
         handleSubCode();
         handleEditTypeRec();
     }, []);
+
+    const handleName = () => {
+        if(props.location.state != undefined){
+            let data    = props.location.state;
+
+            setValue('name', data.name);
+        }
+    }
 
     const handleSubCode = () => {
         if(props.location.state != undefined){
             let data    = props.location.state;
             let subCode = Helpers.wordLimit(data.code, 6, 'back');
             setSubCode(subCode);
+            setValue('code_shop_rek', data.code);
         }
     }
 
@@ -51,8 +61,9 @@ const formPersonInCharge = props => {
         if(props.location.state != undefined){
             let data    = props.location.state;
             let code    = Helpers.wordLimit(data.code, 5, 'front');
+            let value   = {value: 0, label: code};
 
-            return {value: 0, label: code};
+            setValue('type_rec', value);
         }
     }
 
@@ -81,9 +92,9 @@ const formPersonInCharge = props => {
             url: url,
             data: sendData,
         }).then(res => {
-            let result = res.data;
+            let result  = res.data;
 
-            let alert = Helpers.alert(result);
+            let alert   = Helpers.alert(result);
 
             if(alert == 200){
                 history.push(routeName);
@@ -147,7 +158,7 @@ const formPersonInCharge = props => {
                                             name="type_rec"
                                             data={dataTypeRec}
                                             label="Jenis Rekening"
-                                            defaultValue={handleEditTypeRec()}
+                                            // defaultValue={handleEditTypeRec()}
                                             onChange={e => handleTypeRec(e)}
                                         />
                                     </div>
@@ -169,7 +180,6 @@ const formPersonInCharge = props => {
                                             required
                                             name="name"
                                             label="Nama"
-                                            defaultValue={data.name}
                                         />
                                     </div>
                                 </div>

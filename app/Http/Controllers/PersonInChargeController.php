@@ -77,7 +77,6 @@ class PersonInChargeController extends Controller
 
     public function destroy($id)
     {
-        return $id;
         try {
             $data = PersonCharge::findOrFail($id);
             $data->delete();

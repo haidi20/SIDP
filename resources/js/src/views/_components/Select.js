@@ -112,7 +112,7 @@ const select = (props) => {
                 name={props.name}
                 //penting cuy.. jangan di hapus. untuk mendapatkan nilai dari selectnya
                 setValue={() => null} 
-                defaultValue={selected()}
+                // defaultValue={selected()}
                 rules={{ required: true }}
                 onChange={e => onChange(e)}
                 register={props.register({ required: props.required})}

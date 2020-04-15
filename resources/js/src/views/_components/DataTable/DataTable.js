@@ -20,6 +20,7 @@ const DataTable = (props) => {
   const [loading, setLoading]           = useState(true);
   const [brokenUrl, setBrokenUrl]       = useState(false);
   const [showModal, setShowModal]       = useState(false);
+  const [selectedItem, setSelectedItem] = useState({});
   const [widthAction, setWidthAction]   = useState(100);
   const [clickSearch, setClickSearch]   = useState(false);
   const [currentPage, setCurrentPage]   = useState();
@@ -188,8 +189,8 @@ const DataTable = (props) => {
       <td align="center" id="button_action">
         {
           !props.usePopup 
-          ? allButtonAction()
-          : <button title="Kumpulan Tombol Action" className="btn btn-sm btn-success" onClick={() => setShowModal(true)}>
+          ? allButtonAction(item)
+          : <button title="Kumpulan Tombol Action" className="btn btn-sm btn-success" onClick={() => handlePopup(item)}>
               Actions
             </button>
         }
@@ -198,22 +199,29 @@ const DataTable = (props) => {
     )
   }
 
+  const handlePopup = item => {
+    setShowModal(true);
+    setSelectedItem(item);
+  }
+
   useEffect(() => {
     if(showModal){
       Helpers.addClass('.action > .btn', 'btn-block');
     }
   }, [showModal]);
 
-  const allButtonAction = () => {
+  const allButtonAction = (item) => {
     const addButton = props.addButtonActions ? props.addButtonActions() : null;
+
+    const data = item ? item : selectedItem;
 
     return (
       <div className="action">
-        {!props.noEdit && <button title="Ubah Data" className="btn btn-sm btn-info" onClick={() => handleEdit(item)}>
+        {!props.noEdit && <button title="Ubah Data" className="btn btn-sm btn-info" onClick={() => handleEdit(data)}>
             <i className="icofont icofont-edit icofont-md"></i>
           </button>}
         {addButton}
-        {!props.noDelete && <button title="Hapus Data" className="btn btn-sm btn-danger" onClick={() => handleDelete(item)}>
+        {!props.noDelete && <button title="Hapus Data" className="btn btn-sm btn-danger" onClick={() => handleDelete(data)}>
             <i className="icofont icofont-ui-delete icofont-md"></i>
           </button>}
       </div>
@@ -243,7 +251,7 @@ const DataTable = (props) => {
             url: props.url+'/delete/'+data.id,
         }).then(res => {
             let result = res.data;
-
+            
             let alert = Helpers.alert(result);
             if(alert == 200){
               setRemove(true);

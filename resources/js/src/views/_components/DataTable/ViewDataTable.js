@@ -90,7 +90,7 @@ const viewDataTable = (props) => {
                             }
                         </tbody>
                     </table>
-                    { props.noData && props.brokenUrl && (props.state.entities.data && props.state.entities.data.length > 0) &&
+                    { !props.noData && !props.brokenUrl && (props.state.entities.data && props.state.entities.data.length > 0) &&
                         <nav>
                             <ul className="pagination">
                                 <li className="page-item">

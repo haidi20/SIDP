@@ -23,7 +23,8 @@ const formPersonInCharge = props => {
        if(props.location.state != undefined){
            let data = props.location.state;
 
-           setData({...data});
+           setValue('name', data.name);
+           setValue('code', data.code);
        }
     }, []);
 
@@ -106,7 +107,6 @@ const formPersonInCharge = props => {
                                             required
                                             name="name"
                                             label="Nama"
-                                            defaultValue={data.name}
                                             placeholder="Nama"
                                         />
                                     </div>
@@ -118,7 +118,6 @@ const formPersonInCharge = props => {
                                             required
                                             name="code"
                                             label="Kode Kegiatan"
-                                            defaultValue={data.code}
                                             placeholder="Kode Kegiatan"
                                             // defaultValue="19700417 198903 1003"
                                         />

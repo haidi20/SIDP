@@ -21,8 +21,9 @@ const formPersonInCharge = props => {
     useEffect(() => {
        if(props.location.state != undefined){
            let data = props.location.state;
-
-           setData({...data});
+           
+           setValue('name', data.name);
+           setValue('nip', data.nip);
        }
     }, []);
 
@@ -106,7 +107,6 @@ const formPersonInCharge = props => {
                                             required
                                             name="name"
                                             label="Nama"
-                                            defaultValue={data.name}
                                             placeholder="Nama"
                                         />
                                     </div>
@@ -122,7 +122,6 @@ const formPersonInCharge = props => {
                                             required
                                             name="nip"
                                             label="NIP"
-                                            defaultValue={data.nip}
                                             placeholder="Nomor Induk Pegawai"
                                             // defaultValue="19700417 198903 1003"
                                         />

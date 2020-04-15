@@ -23,14 +23,14 @@ const formDocument = () => {
             number_agreement_letter: 'Perjanjian/SPK/SPB 010/SPK/SMP/6/2019',
         }
     });
-    const [job, setJob]                     = useState({});
-    const [activity, setActivity]           = useState({});
-    const [formatDate, setFormatDate]       = useState('YYYY-MM-DD');
-    const [sequenceLetter, setSequenceLetter]= useState(0);
-    const [numberLetter, setNumberLetter]   = useState('');
-    const [timeInCharge, setTimeInCharge]   = useState();
-    const [dateAgreement, setDateAgreement] = useState();
-    const [contractValue, setContractValue] = useState();
+    const [job, setJob]                         = useState({});
+    const [activity, setActivity]               = useState({});
+    const [formatDate, setFormatDate]           = useState('YYYY-MM-DD');
+    const [numberLetter, setNumberLetter]       = useState('');
+    const [timeInCharge, setTimeInCharge]       = useState();
+    const [dateAgreement, setDateAgreement]     = useState();
+    const [contractValue, setContractValue]     = useState();
+    const [sequenceLetter, setSequenceLetter]   = useState(0);
     const [state, setState] = useState({
         person_in_charge: {
             person_in_charge_one: null,
@@ -63,7 +63,7 @@ const formDocument = () => {
         let resultNumberLetter = 'No.'+month+date+sequenceLetter;
         resultNumberLetter    += '/BA-PPHP/DP/'+codeJob+'/'+codeActivity;
         resultNumberLetter    += '/'+month+'/'+year;
-        // setNumberLetter(resultNumberLetter);
+
         setValue('number_letter', resultNumberLetter);
     }
 
