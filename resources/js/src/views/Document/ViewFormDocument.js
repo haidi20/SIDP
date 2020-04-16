@@ -14,24 +14,8 @@ import ViewFormPersonInCharge from './Partials/ViewFormPersonInCharge';
 
 const viewFormDocument = (props) => {
     const handleDisabledSend = () => {
-
         document.getElementsByClassName("mySubmit").disabled = true;
         return props.disabledSend ? 'disabled' : '';
-    }
-
-    const handleSend = (e) => {
-        if(props.disabledSend){
-            console.log('masuk disabled send');
-            e.preventDefault();
-        }
-
-        console.log('lewat disabled');
-        return props.handleSubmit(props.handleSend);
-    }
-
-    const handleChecked = async () => {
-        console.log(props.morePerson);
-        await props.morePerson ? true : false;
     }
 
     return(
@@ -191,7 +175,7 @@ const viewFormDocument = (props) => {
                                             // required
                                             type="date"
                                             name="date_agreement_letter"
-                                            defaultValue={new Date()}
+                                            defaultValue={props.dateAgreement}
                                             label="Tanggal Surat Perjanjian/SPK/SPB"
                                             onChange={e => props.handleSetDateAgreement(e)}
                                         />

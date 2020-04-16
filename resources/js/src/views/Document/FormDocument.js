@@ -18,11 +18,10 @@ const formDocument = (props) => {
     const history = useHistory();
     const { register, handleSubmit, watch, errors, setValue } = useForm({
         mode: "onChange",
-        // defaultValues:{
-        //     contract_value: "Rp. 20.000.000",
-        //     date_agreement_letter: '01 Juni 2019',
-        //     number_agreement_letter: 'Perjanjian/SPK/SPB 010/SPK/SMP/6/2019',
-        // }
+        defaultValues:{
+            contract_value: "Rp. 20.000.000",
+            number_agreement_letter: 'Perjanjian/SPK/SPB 010/SPK/SMP/6/2019',
+        }
     });
     const [job, setJob]                         = useState({});
     const [activity, setActivity]               = useState({});
@@ -43,6 +42,7 @@ const formDocument = (props) => {
     useEffect(() => {
         handleFormEdit();
         setTimeInCharge(new Date());
+        setDateAgreement(new Date());
     }, []);
 
     const handleFormEdit = async () => {
@@ -112,8 +112,21 @@ const formDocument = (props) => {
         // nama kegiatan
         setValue('name_activity', data.activity.name);
 
+        // kode rekening belanja
+        setValue('rek_code', {value: data.job.id, label: data.job.code});
+        // nama pekerjaan
+        setValue('name_work', data.job.name);
+
         // nilai kontrak
         setValue('contract_value', data.set_contract_value);
+
+        // keterangan
+        setValue('keterangan', data.information);
+
+        // nomor surat perjanjian
+        setValue('number_agreement_letter', data.number_agreement_letter);
+        // tanggal surat perjanjian
+        setDateAgreement(new Date(data.date_agreement_letter));
     }
 
     useEffect(() => {
@@ -212,30 +225,27 @@ const formDocument = (props) => {
                 }
     
                 Helpers.alert(result);
+                console.log(response);
             });
         }
     }
-    
-    useEffect(() => {
-        setDateAgreement(moment().format(formatDate));
-    }, []);
 
     const handleSetDateAgreement = e => {
         if(e !== null){
-            setDateAgreement(moment(e).format(formatDate));
+            setDateAgreement(e);
         }
     }
     
     const handleSend = data => {
-        // console.log(data);
-        data.time_in_charge         = timeInCharge;
+        console.log(data);
+        data.time_in_charge         = moment(timeInCharge).format(formatDate);
         data.contract_value         = Helpers.removeFormatRupiah(data.contract_value);
         data.sequence_letter        = sequenceLetter;
-        data.date_agreement_letter  = dateAgreement;
+        data.date_agreement_letter  = moment(dateAgreement).format(formatDate);
 
         const sameChoice = Object.keys(data)
                                 .some(item => {
-                                    return Helpers.sameChoice(item, state);
+                                    return Helpers.sameChoice(item, personInCharge);
                                 });
 
         if(!sameChoice){
@@ -244,6 +254,7 @@ const formDocument = (props) => {
                 url: '/document/store',
                 params: data,
             }).then(res => {
+                // console.log(res);
                 let result = res.data;
 
                 let alert = Helpers.alert(result);
@@ -262,6 +273,7 @@ const formDocument = (props) => {
                 }
     
                 Helpers.alert(result);
+                console.log(response);
             });
         }else{
             Swal.fire({
