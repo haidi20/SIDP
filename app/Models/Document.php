@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Document extends Model
 {
-    protected $appends = ['set_contract_value'];
+    protected $dates    = ['time_in_charge'];
+    protected $appends  = ['set_contract_value', 'set_time_in_charge'];
 
     public function job()
     {
@@ -56,5 +57,10 @@ class Document extends Model
     public function getSetContractValueAttribute()
     {
         return 'Rp. '.format_money($this->contract_value);
+    }
+
+    public function getSetTimeInChargeAttribute()
+    {
+        return $this->time_in_charge->format('m/d/Y');
     }
 }

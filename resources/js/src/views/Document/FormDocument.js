@@ -31,21 +31,18 @@ const formDocument = (props) => {
     const [numberLetter, setNumberLetter]       = useState('');
     const [timeInCharge, setTimeInCharge]       = useState();
     const [disabledSend, setDisabledSend]       = useState(false);
-    const [dateAgreement, setDateAgreement]     = useState();
+    const [dateAgreement, setDateAgreement]     = useState('');
     const [contractValue, setContractValue]     = useState();
     const [sequenceLetter, setSequenceLetter]   = useState(0);
-    const [state, setState] = useState({
-        person_in_charge: {
-            person_in_charge_one: null,
-            person_in_charge_two: null,
-            person_in_charge_three: null,
-        }
+    const [personInCharge, setPersonInCharge]   = useState({
+        person_in_charge_one: null,
+        person_in_charge_two: null,
+        person_in_charge_three: null,
     });
 
     useEffect(() => {
         handleFormEdit();
-        setTimeInCharge(moment().format(formatDate));
-        setValue('time_in_charge', moment().format(formatDate));
+        setTimeInCharge(new Date());
     }, []);
 
     const handleFormEdit = async () => {
@@ -66,6 +63,7 @@ const formDocument = (props) => {
         
                     Helpers.alert(result);
                     setDisabledSend(true);
+                    console.log('data is undefined');
                 }else{
                     insertFormEdit(data);
                 }
@@ -77,16 +75,35 @@ const formDocument = (props) => {
     
                 Helpers.alert(result);
                 setDisabledSend(true);
+                console.log(response);
             });
         }
     }
 
     const insertFormEdit = data => {
         console.log(data);
+        const personOne         = data.person_charge_one;
+        const personTwo         = data.person_charge_two;
+        const personThree       = data.person_charge_three;
+        const dataTimeInCharge  = data.time_in_charge;
+
+        // pilih pilihan 1 orang / 3 orang
         if(data.person_in_charge_two !== 0){
             setMorePerson(true);
         }
 
+        // pejabat PaHP 1, 2, dan 3.
+        setValue('person_in_charge_one', {value: personOne.id, label: personOne.name});
+        setValue('person_in_charge_two', {value: personTwo.id, label: personTwo.name});
+        setValue('person_in_charge_three', {value: personThree.id, label: personThree.name});
+
+        // nomor surat
+        setValue('number_letter', data.number_letter);
+
+        // tanggal pemeriksaan
+        setTimeInCharge(new Date(dataTimeInCharge));
+
+        // nilai kontrak
         setValue('contract_value', data.set_contract_value);
     }
 
@@ -96,7 +113,7 @@ const formDocument = (props) => {
 
     const handleNumberLetter = () => {
         let year            = moment(timeInCharge).format('YY');
-        let date            = moment(timeInCharge).format('DD');
+        let day             = moment(timeInCharge).format('DD');
         let month           = moment(timeInCharge).format('MM');
         let codeActivity    = activity.otherData !== undefined 
                                 ? activity.otherData.code 
@@ -105,13 +122,13 @@ const formDocument = (props) => {
                                 ? job.lastCode
                                 : '00.00';
 
-        let resultNumberLetter = 'No.'+month+date+sequenceLetter;
+        console.log(day);
+
+        let resultNumberLetter = 'No.'+month+day+sequenceLetter;
         resultNumberLetter    += '/BA-PPHP/DP/'+codeJob+'/'+codeActivity;
         resultNumberLetter    += '/'+month+'/'+year;
 
-        if(props.location.state === undefined){
-            setValue('number_letter', resultNumberLetter);
-        }
+        setValue('number_letter', resultNumberLetter);
     }
 
     const handleSetActivity = e => {
@@ -128,7 +145,7 @@ const formDocument = (props) => {
 
     const handleSetTimeInCharge = e => {
         if(e !== null){
-            setTimeInCharge(moment(e).format(formatDate));
+            setTimeInCharge(e);
         }
     }
     
@@ -147,23 +164,17 @@ const formDocument = (props) => {
         // const value = selected.value ? selected.value : selected.target.value;
         let value = selected.value;
 
-        setState({
-            ...state,
-            person_in_charge: {
-                ...state.person_in_charge,
-                [name]: value,
-            }
+        setPersonInCharge({
+            ...personInCharge,
+            [name]: value,
         });
     }   
 
     const handleFormPerson = e => {
-        setState({
-            ...state,
-            person_in_charge: {
-                person_in_charge_one: null,
-                person_in_charge_two: null,
-                person_in_charge_three: null,
-            }
+        setPersonInCharge({
+            // person_in_charge_one: null,
+            person_in_charge_two: null,
+            person_in_charge_three: null,
         });
 
         setMorePerson(!morePerson);
@@ -180,20 +191,22 @@ const formDocument = (props) => {
     }, [timeInCharge]);
 
     const fetchSequenceLetter = async () => {
-        await axios({
-            method: 'get',
-            url: '/document/sequence-letter',
-            params:{time_in_charge: timeInCharge},
-        }).then(res => {
-            setSequenceLetter(res.data);
-        }).catch(function (response) {
-            let result = {
-                data: 'Maaf, Ada Kesalahan Sistem',
-                status: 500,
-            }
-
-            Helpers.alert(result);
-        });
+        if(props.location.state === undefined){
+            await axios({
+                method: 'get',
+                url: '/document/sequence-letter',
+                params:{time_in_charge: timeInCharge},
+            }).then(res => {
+                setSequenceLetter(res.data);
+            }).catch(function (response) {
+                let result = {
+                    data: 'Maaf, Ada Kesalahan Sistem',
+                    status: 500,
+                }
+    
+                Helpers.alert(result);
+            });
+        }
     }
     
     useEffect(() => {
@@ -252,12 +265,11 @@ const formDocument = (props) => {
         }       
     }
 
-    const handleError = (name, tag) => Helpers.handleError(name, tag, errors, {...state});
+    const handleError = (name, tag) => Helpers.handleError(name, tag, errors, {...personInCharge});
 
-    const messageError = (name, label) => Helpers.messageError(name, label, errors, {...state});
+    const messageError = (name, label) => Helpers.messageError(name, label, errors, {...personInCharge});
 
     const passing = {
-        state:state,
         // start from useForm
         watch: watch,
         errors: errors,
@@ -276,8 +288,11 @@ const formDocument = (props) => {
         // another state all
         morePerson: morePerson,
         numberLetter: numberLetter,
+        timeInCharge: timeInCharge,
         disabledSend: disabledSend,
+        dateAgreement: dateAgreement,
         contractValue: contractValue,
+        personInCharge: personInCharge,
         handleSetJob: e => handleSetJob(e),
         handleSetActivity: e => handleSetActivity(e),
         handleSetTimeInCharge: e => handleSetTimeInCharge(e),

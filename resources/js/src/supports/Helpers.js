@@ -8,9 +8,9 @@ import Swal from 'sweetalert2';
 // name is name in tag html
 // label is name of form
 
-const handleError = (name, tag, errors, state) => {
-    if(tag == 'label' && state != null){
-        let resultSameChoice = sameChoice(name, state);
+const handleError = (name, tag, errors, personInCharge) => {
+    if(tag == 'label' && personInCharge != null){
+        let resultSameChoice = sameChoice(name, personInCharge);
 
         if(errors[name]) return {color: 'red'}
 
@@ -18,31 +18,31 @@ const handleError = (name, tag, errors, state) => {
     }else if(tag == 'input'){
         if(errors[name]) return 'form-control-danger';
     }else if(tag == 'select'){ 
-        let resultSameChoice =  state != null ? sameChoice(name, state) : false;
+        let resultSameChoice =  personInCharge != null ? sameChoice(name, personInCharge) : false;
 
         // if there is no choice
         if (errors[name]) return true;
         // if choice is same
-        if(resultSameChoice && state != null) return true;
+        if(resultSameChoice && personInCharge != null) return true;
     }
 }
 
 
-const messageError = (name, label, errors, state) => {
-    let resultSameChoice = state != null ? sameChoice(name, state) : false;
+const messageError = (name, label, errors, personInCharge) => {
+    let resultSameChoice = personInCharge != null ? sameChoice(name, personInCharge) : false;
     
     if(errors[name]) return <span style={{color: 'red'}}> {label} tidak boleh kosong</span>;
 
-    if(resultSameChoice && state != null) return <span style={{color: 'red'}}> sudah ada yang milih </span>;
+    if(resultSameChoice && personInCharge != null) return <span style={{color: 'red'}}> sudah ada yang milih </span>;
 }
 
 // jika pilihannya sama, maka muncul peringatan.
-const sameChoice = (name, state) => {
-    let resultError = Object.keys(state.person_in_charge)
+const sameChoice = (name, personInCharge) => {
+    let resultError = Object.keys(personInCharge)
                             .filter(item => item != name)
                             .some(item => {
-                                let thisSelect   = state.person_in_charge[name];
-                                let anotherSelect  = state.person_in_charge[item];
+                                let thisSelect   = personInCharge[name];
+                                let anotherSelect  = personInCharge[item];
                                 // console.log(thisSelect, anotherSelect);
                                 if( 
                                     (thisSelect != null && anotherSelect != null) &&

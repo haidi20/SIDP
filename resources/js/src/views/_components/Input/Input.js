@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { RHFInput } from 'react-hook-form-input';
 
-//third party 
-import moment from 'moment';
+//third party
 import DatePicker, {registerLocale} from "react-datepicker";
  
 import './Input.scss';
@@ -33,6 +32,15 @@ registerLocale('id', id)
 
 const input = (props) => {
     const [date, setDate] = useState(new Date());
+    const [showDate, setShowDate] = useState(false);
+
+    useEffect(() => {
+        if(props.type === 'date' && props.defaultValue){
+            setTimeout(() => {
+                setShowDate(true);
+            }, 1000);
+        }
+    }, [props.defaultValue]);   
 
     useEffect(() => {
         // remove error when choose choice.
@@ -80,12 +88,21 @@ const input = (props) => {
             {
                 props.type === 'date'
                 ?   <div>
-                        <DatePicker 
-                            {...allAttribute}  
-                            
-                            locale="id"
-                            selected={date}
-                        />
+                        {
+                            showDate 
+                            ?   <DatePicker 
+                                    {...allAttribute}  
+                                    
+                                    locale="id"
+                                    selected={props.defaultValue}
+                                />
+                            :   <DatePicker 
+                                    {...allAttribute}  
+                                    
+                                    locale="id"
+                                    selected={date}
+                                /> 
+                        }
                     </div>
                 :   <input 
                         ref={props.register({required: props.required})}

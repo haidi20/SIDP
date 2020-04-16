@@ -101,6 +101,7 @@ const viewFormDocument = (props) => {
                                             type="date"
                                             name="time_in_charge"
                                             label="Tanggal Pemeriksaan"
+                                            defaultValue={props.timeInCharge}
                                             onChange={e => props.handleSetTimeInCharge(e)}
                                         />
                                     </div>
@@ -190,6 +191,7 @@ const viewFormDocument = (props) => {
                                             // required
                                             type="date"
                                             name="date_agreement_letter"
+                                            defaultValue={new Date()}
                                             label="Tanggal Surat Perjanjian/SPK/SPB"
                                             onChange={e => props.handleSetDateAgreement(e)}
                                         />
