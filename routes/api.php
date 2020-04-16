@@ -22,10 +22,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['prefix' => 'document', 'name' => 'document.'], function(){
     Route::get('/', 'DocumentsController@index')->name('index');
     Route::get('/edit/{id}', 'DocumentsController@edit')->name('edit');
-    Route::get('/sequence-letter', 'DocumentsController@sequenceLetter')->name('sequenceLetter');
-    Route::get('/file/{id}', 'DocumentsController@file')->name('file');
     Route::post('/store', 'DocumentsController@store')->name('store');
+    Route::post('/update/{id}', 'DocumentsController@update')->name('update');
     Route::post('/delete/{id}', 'DocumentsController@destroy')->name('delete');
+
+    Route::get('/file/{id}', 'DocumentsController@file')->name('file');
+    Route::get('/sequence-letter', 'DocumentsController@sequenceLetter')->name('sequenceLetter');
 });
 Route::group(['prefix' => 'person-in-charge', 'name' => 'personInCharge.'], function(){
     Route::get('/', 'PersonInChargeController@index')->name('index');

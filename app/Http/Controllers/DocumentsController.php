@@ -45,8 +45,18 @@ class DocumentsController extends Controller
 
     public function store()
     {
+        return $this->save();
+    }
+
+    public function update($id)
+    {
+        return $this->save($id);
+    }
+
+    public function save($id = null)
+    {
         try {
-            $data   = New Document();
+            $data   = $id ? Document::findOrFail($id) : New Document();
             $data->person_in_charge_one     = $this->personInCharge(1);
             $data->person_in_charge_two     = $this->personInCharge(2);
             $data->person_in_charge_three   = $this->personInCharge(3);

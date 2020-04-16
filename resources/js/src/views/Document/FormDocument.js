@@ -236,8 +236,18 @@ const formDocument = (props) => {
         }
     }
     
+    const handleUrl = () => {
+        if(props.location.state != undefined){
+            let data = props.location.state;
+
+            return 'document/update/'+data.id;
+        }else{
+            return 'document/store'
+        }
+    }
+
     const handleSend = data => {
-        console.log(data);
+        // console.log(data);
         data.time_in_charge         = moment(timeInCharge).format(formatDate);
         data.contract_value         = Helpers.removeFormatRupiah(data.contract_value);
         data.sequence_letter        = sequenceLetter;
@@ -251,7 +261,7 @@ const formDocument = (props) => {
         if(!sameChoice){
             axios({
                 method: 'post',
-                url: '/document/store',
+                url: handleUrl(),
                 params: data,
             }).then(res => {
                 // console.log(res);
