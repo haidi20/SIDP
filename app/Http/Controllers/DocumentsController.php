@@ -61,6 +61,7 @@ class DocumentsController extends Controller
 
     public function save($id = null)
     {
+        // return request()->all();
         try {
             $data   = $id ? Document::findOrFail($id) : New Document();
             $data->person_in_charge_one     = $this->personInCharge(1);

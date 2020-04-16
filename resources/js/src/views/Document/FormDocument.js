@@ -104,10 +104,10 @@ const formDocument = (props) => {
         }
 
         // pejabat PaHP 1, 2, dan 3.
-        setValue('person_in_charge_one', {value: personOne.id, label: personOne.name});
+        setValue('person_in_charge_one', {value: personOne.id, label: personOne.name, otherData: personOne});
         if(personTwo && personThree){
-            setValue('person_in_charge_two', {value: personTwo.id, label: personTwo.name});
-            setValue('person_in_charge_three', {value: personThree.id, label: personThree.name});
+            setValue('person_in_charge_two', {value: personTwo.id, label: personTwo.name, otherData: personTwo});
+            setValue('person_in_charge_three', {value: personThree.id, label: personThree.name, otherData: personThree});
         }
 
         // nomor surat
@@ -290,7 +290,7 @@ const formDocument = (props) => {
                 url: handleUrl(),
                 params: data,
             }).then(res => {
-                // console.log(res);
+                console.log(res);
                 let result = res.data;
 
                 let alert = Helpers.alert(result);
