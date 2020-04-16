@@ -25,7 +25,6 @@ registerLocale('id', id)
     readonly
     name="number_dpa"
     label="Nomor DPA-SKPD"
-    defaultValue={props.handleNumberDpa()}
     placeholder="1.XX.XX.XX.XXX.X.X"
     defaultValue="1.01.01.22.266.5.2"
 /> */}
@@ -48,8 +47,6 @@ const input = (props) => {
     }, [props.watch(props.name)]);
 
     const onChange = e => {
-        // console.log(props.watch(props.name));
-        // remove error when choose choice.
         if(props.watch(props.name) !== undefined && props.watch(props.name).length > 0){
             props.errors[props.name] = false;
         }

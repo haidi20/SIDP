@@ -94,14 +94,23 @@ const formDocument = (props) => {
 
         // pejabat PaHP 1, 2, dan 3.
         setValue('person_in_charge_one', {value: personOne.id, label: personOne.name});
-        setValue('person_in_charge_two', {value: personTwo.id, label: personTwo.name});
-        setValue('person_in_charge_three', {value: personThree.id, label: personThree.name});
+        if(personTwo && personThree){
+            setValue('person_in_charge_two', {value: personTwo.id, label: personTwo.name});
+            setValue('person_in_charge_three', {value: personThree.id, label: personThree.name});
+        }
 
         // nomor surat
         setValue('number_letter', data.number_letter);
 
         // tanggal pemeriksaan
         setTimeInCharge(new Date(dataTimeInCharge));
+
+        // kode kegiatan
+        setValue('code_activity', {value: data.activity.id, label: data.activity.label});
+        // nomor DPA-SKPD
+        setValue('number_dpa', '1.01.01.'+data.activity.label);
+        // nama kegiatan
+        setValue('name_activity', data.activity.name);
 
         // nilai kontrak
         setValue('contract_value', data.set_contract_value);
@@ -121,8 +130,6 @@ const formDocument = (props) => {
         let codeJob         = job.lastCode !== undefined 
                                 ? job.lastCode
                                 : '00.00';
-
-        console.log(day);
 
         let resultNumberLetter = 'No.'+month+day+sequenceLetter;
         resultNumberLetter    += '/BA-PPHP/DP/'+codeJob+'/'+codeActivity;
