@@ -211,7 +211,7 @@ const DataTable = (props) => {
   }, [showModal]);
 
   const allButtonAction = (item) => {
-    const addButton = props.addButtonActions ? props.addButtonActions() : null;
+    const addButton = data => props.addButtonActions ? props.addButtonActions(data) : null;
 
     const data = item ? item : selectedItem;
 
@@ -220,7 +220,7 @@ const DataTable = (props) => {
         {!props.noEdit && <button title="Ubah Data" className="btn btn-sm btn-info" onClick={() => handleEdit(data)}>
             <i className="icofont icofont-edit icofont-md"></i>
           </button>}
-        {addButton}
+        {addButton(data)}
         {!props.noDelete && <button title="Hapus Data" className="btn btn-sm btn-danger" onClick={() => handleDelete(data)}>
             <i className="icofont icofont-ui-delete icofont-md"></i>
           </button>}

@@ -9,9 +9,9 @@ const document = () => {
     const columns   = ['Nomor Surat'];
     const nameRoute = '/document';
 
-    const addButtonActions = () => {
+    const addButtonActions = data => {
         return (
-            <button title="Detail Data" className="btn btn-sm btn-success">
+            <button title="Detail Data" className="btn btn-sm btn-success" >
                 <i className="fa fa-bars"></i>
             </button>
         )
@@ -43,7 +43,7 @@ const document = () => {
                                     columns={columns}
                                     nameRoute={nameRoute}
                                     url={Config.baseUrl + nameRoute} 
-                                    addButtonActions={() => addButtonActions()}
+                                    addButtonActions={data => addButtonActions(data)}
                                 />
                             </div>
                         </div>

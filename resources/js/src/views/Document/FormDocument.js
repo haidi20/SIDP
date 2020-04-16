@@ -28,11 +28,12 @@ const formDocument = (props) => {
     const [formatDate, setFormatDate]           = useState('YYYY-MM-DD');
     const [morePerson, setMorePerson]           = useState(false);
     const [numberLetter, setNumberLetter]       = useState('');
+    const [changeLetter, setChangeLetter]       = useState(false);
     const [timeInCharge, setTimeInCharge]       = useState();
     const [disabledSend, setDisabledSend]       = useState(false);
     const [dateAgreement, setDateAgreement]     = useState('');
     const [contractValue, setContractValue]     = useState();
-    const [sequenceLetter, setSequenceLetter]   = useState(0);
+    const [sequenceLetter, setSequenceLetter]   = useState(1);
     const [personInCharge, setPersonInCharge]   = useState({
         person_in_charge_one: null,
         person_in_charge_two: null,
@@ -40,13 +41,17 @@ const formDocument = (props) => {
     });
 
     useEffect(() => {
+        if(props.location.state === undefined){
+            setChangeLetter(true);
+        }
+
         handleFormEdit();
         setTimeInCharge(new Date());
         setDateAgreement(new Date());
     }, []);
 
     const handleFormEdit = async () => {
-        if(props.location.state != undefined){
+        if(props.location.state !== undefined){
             let data = props.location.state;
 
             await axios({
@@ -81,11 +86,17 @@ const formDocument = (props) => {
     }
 
     const insertFormEdit = data => {
-        console.log(data);
+        // console.log(data);
         const personOne         = data.person_charge_one;
         const personTwo         = data.person_charge_two;
         const personThree       = data.person_charge_three;
         const dataTimeInCharge  = data.time_in_charge;
+
+        const dataJob       = {
+                                value: data.job.id, label: data.job.label, 
+                                lastCode: Helpers.wordLimit(data.job.label, 6, 'back'), otherData: data.job
+                            }
+        const dataActivity  = {value: data.activity.id, label: data.activity.label, otherData: data.activity};
 
         // pilih pilihan 1 orang / 3 orang
         if(data.person_in_charge_two !== 0){
@@ -106,13 +117,15 @@ const formDocument = (props) => {
         setTimeInCharge(new Date(dataTimeInCharge));
 
         // kode kegiatan
-        setValue('code_activity', {value: data.activity.id, label: data.activity.label});
+        setActivity(dataActivity)
+        setValue('code_activity', dataActivity);
         // nomor DPA-SKPD
         setValue('number_dpa', '1.01.01.'+data.activity.label);
         // nama kegiatan
         setValue('name_activity', data.activity.name);
 
         // kode rekening belanja
+        setJob(dataJob);
         setValue('rek_code', {value: data.job.id, label: data.job.code});
         // nama pekerjaan
         setValue('name_work', data.job.name);
@@ -127,6 +140,9 @@ const formDocument = (props) => {
         setValue('number_agreement_letter', data.number_agreement_letter);
         // tanggal surat perjanjian
         setDateAgreement(new Date(data.date_agreement_letter));
+
+        // urutan surat
+        setSequenceLetter(data.sequenceLetter);
     }
 
     useEffect(() => {
@@ -148,10 +164,13 @@ const formDocument = (props) => {
         resultNumberLetter    += '/BA-PPHP/DP/'+codeJob+'/'+codeActivity;
         resultNumberLetter    += '/'+month+'/'+year;
 
-        setValue('number_letter', resultNumberLetter);
+        if(changeLetter){
+            setValue('number_letter', resultNumberLetter);
+        }
     }
 
     const handleSetActivity = e => {
+        setChangeLetter(true);
         if(e !== null){
             setActivity(e);
             setValue('name_activity', e.otherData.name);
@@ -164,12 +183,14 @@ const formDocument = (props) => {
     }
 
     const handleSetTimeInCharge = e => {
+        setChangeLetter(true);
         if(e !== null){
             setTimeInCharge(e);
         }
     }
     
     const handleSetJob = e => {
+        setChangeLetter(true);
         e.lastCode = Helpers.wordLimit(e.label, 6, 'back');
         if(e !== null){
             setJob(e);
@@ -211,23 +232,28 @@ const formDocument = (props) => {
     }, [timeInCharge]);
 
     const fetchSequenceLetter = async () => {
-        if(props.location.state === undefined){
-            await axios({
-                method: 'get',
-                url: '/document/sequence-letter',
-                params:{time_in_charge: timeInCharge},
-            }).then(res => {
-                setSequenceLetter(res.data);
-            }).catch(function (response) {
-                let result = {
-                    data: 'Maaf, Ada Kesalahan Sistem',
-                    status: 500,
-                }
-    
-                Helpers.alert(result);
-                console.log(response);
-            });
+        let id = 0;
+        let dataTimeInCharge = moment(timeInCharge).format(formatDate);
+        if(props.location.state !== undefined){
+            let data = props.location.state;
+            id = data.id;
         }
+
+        await axios({
+            method: 'get',
+            url: '/document/sequence-letter',
+            params:{time_in_charge: dataTimeInCharge, id: id},
+        }).then(res => {
+            setSequenceLetter(res.data);
+        }).catch(function (response) {
+            let result = {
+                data: 'Maaf, Ada Kesalahan Sistem',
+                status: 500,
+            }
+
+            Helpers.alert(result);
+            console.log(response);
+        });
     }
 
     const handleSetDateAgreement = e => {
