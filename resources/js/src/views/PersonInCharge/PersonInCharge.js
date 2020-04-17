@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 //components
 import DataTable from '../_components/DataTable/DataTable';
@@ -6,6 +6,8 @@ import DataTable from '../_components/DataTable/DataTable';
 const peronInCharge = () => {
     const columns = ['Nama', 'NIP'];
     const nameRoute = '/person-in-charge';
+
+    const [showModal, setShowModal]   = useState(false);
 
     return(
         <div>
@@ -29,9 +31,11 @@ const peronInCharge = () => {
                         <div className="card">
                             <div className="card-block">
                                 <DataTable
+                                    url={nameRoute} 
                                     columns={columns}
                                     nameRoute={nameRoute}
-                                    url={nameRoute} 
+                                    showModal={showModal}
+                                    setShowModal={(e) => setShowModal(e)}
                                 />
                             </div>
                         </div>

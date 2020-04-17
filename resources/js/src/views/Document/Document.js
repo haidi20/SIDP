@@ -2,13 +2,13 @@ import React, {useState, useEffect} from 'react';
 
 //third party
 import axios from '../../supports/Axios';
-import { Modal, Button } from 'react-bootstrap';
 //components
 import DataTable from '../_components/DataTable/DataTable';
 // helpers
 import Config from '../../supports/Config';
 import * as Helpers from '../../supports/Helpers';
 // partials
+import UploadFile from './Partials/UploadFile';
 import DetailDocument from './Partials/DetailDocument';
 
 const document = () => {
@@ -17,22 +17,28 @@ const document = () => {
     
     const [document, setDocument]   = useState();
     const [loading, setLoading]     = useState(false);
-    const [showModal, setShowModal] = useState(false);
 
-    const [showModalDatatable, setShowModalDatatable] = useState(false);
+    const [showModalDetail, setShowModalDetail]         = useState(false);
+    const [showModalUpload, setShowModalUpload]         = useState(false);
+    const [showModalDatatable, setShowModalDatatable]   = useState(false);
 
     const addButtonActions = (data) => {
-        return (
-            <button title="Detail Data" className="btn btn-sm btn-success" onClick={() => handleDetail(data)}>
-                <i className="fa fa-bars"></i>
-            </button>
+        const listButton = [
+            {title: 'Detail Data', color: 'btn-success', icon: 'fa fa-bars', onClick: () => handleDetail(data)},
+            {title: 'Upload Data', color: 'btn-warning', icon: 'fa fa-cloud-upload', onClick: () => handleUpload()},
+        ]
+
+        return listButton.map((item, index) => 
+            <button key={index} title={item.title} className={`btn btn-sm ${item.color}`} onClick={() => item.onClick()}>
+                <i className={item.icon}></i>
+            </button>    
         )
     }
 
     const handleDetail = async (data) => {
         // console.log(data);
         setLoading(true);
-        setShowModal(true);
+        setShowModalDetail(true);
         setShowModalDatatable(false);
         await axios({
             method: 'get',
@@ -52,13 +58,22 @@ const document = () => {
         });
     }
 
+    const handleUpload = () => {
+        setShowModalUpload(true);
+        setShowModalDatatable(false);
+    }
+
     return(
         <div>
             <DetailDocument 
                 loading={loading}
                 document={document}
-                showModal={showModal}
-                setShowModal={() => setShowModal()}
+                showModal={showModalDetail}
+                setShowModal={() => setShowModalDetail()}
+            />
+            <UploadFile 
+                showModal={showModalUpload}
+                setShowModal={() => setShowModalUpload()}
             />
             <div className="page-header">
                 <div className="row">

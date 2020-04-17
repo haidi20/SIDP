@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 //components
 import DataTable from '../_components/DataTable/DataTable';
@@ -6,6 +6,8 @@ import DataTable from '../_components/DataTable/DataTable';
 const activity = () => {
     const columns   = ['Nama', 'Kode'];
     const nameRoute = '/activity';
+
+    const [showModal, setShowModal]   = useState(false);
 
     return(
         <div>
@@ -32,6 +34,8 @@ const activity = () => {
                                     url={nameRoute} 
                                     columns={columns}
                                     nameRoute={nameRoute}
+                                    showModal={showModal}
+                                    setShowModal={(e) => setShowModal(e)}
                                 />
                             </div>
                         </div>

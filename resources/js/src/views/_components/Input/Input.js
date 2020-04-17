@@ -62,6 +62,14 @@ const input = (props) => {
         }   
     }
 
+    const handleUploadFileClass = () => {
+        if(props.type === 'file'){
+            return 'custom-file-input';
+        }else{
+            return null;
+        }
+    }
+
     const allAttribute = {
         id:props.name, 
         name:props.name,
@@ -69,7 +77,7 @@ const input = (props) => {
         type:props.type ? props.type : 'input',
         readOnly:props.readonly ? true : false,
         placeholder:props.placeholder ? props.placeholder : null,
-        className:`form-control ${props.handleError(props.name, 'input')}`,
+        className:`form-control ${props.handleError(props.name, 'input')} ${handleUploadFileClass()}`,
         //default value di gantikan dengan setValue react-hook-form
         // jika TIDAK pakai key, maka default value tidak bekerja
         /// jika pakai key, maka errors tidak bekerja
