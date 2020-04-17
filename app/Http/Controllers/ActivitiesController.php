@@ -26,7 +26,7 @@ class ActivitiesController extends Controller
     public function store()
     {
         $checkCode = Activity::where('code', request('code'))->first();
-        // if($checkNip) return response()->json(['data' => 'Maaf, NIP Tidak Boleh Sama', 'status' => 400]);
+        if($checkCode) return response()->json(['data' => 'Maaf, NIP Tidak Boleh Sama', 'status' => 400]);
 
         try {
             $data       = New Activity();
@@ -48,8 +48,8 @@ class ActivitiesController extends Controller
 
     public function update($id)
     {
-        $checkNip = Activity::where('code', request('code'))->where('id', '!=', $id)->first();
-        // if($checkNip) return response()->json(['data' => 'Maaf, NIP Tidak Boleh Sama', 'status' => 400]);
+        $checkCode = Activity::where('code', request('code'))->where('id', '!=', $id)->first();
+        if($checkCode) return response()->json(['data' => 'Maaf, Kode Tidak Boleh Sama', 'status' => 400]);
 
         try {
             $data       = Activity::findOrFail($id);

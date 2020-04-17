@@ -17,6 +17,9 @@ import { Modal, Button } from 'react-bootstrap';
     nameRoute={nameRoute} // berguna untuk pindah page di edit
     url={Config.baseUrl + nameRoute} // url untuk mendapatkan data 
     addButtonActions={() => addButtonActions()} // jika ada tambahan tombol
+    // modal datatable
+    showModal={showModalDatatable}
+    setShowModal={(e) => setShowModalDatatable(e)}
 /> */}
 
 const viewDataTable = (props) => {

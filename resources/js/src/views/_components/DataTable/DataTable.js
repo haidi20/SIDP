@@ -19,7 +19,7 @@ const DataTable = (props) => {
   const [remove, setRemove]             = useState(false);
   const [loading, setLoading]           = useState(true);
   const [brokenUrl, setBrokenUrl]       = useState(false);
-  const [showModal, setShowModal]       = useState(false);
+  // const [showModal, setShowModal]       = useState(false);
   const [widthAction, setWidthAction]   = useState(100);
   const [clickSearch, setClickSearch]   = useState(false);
   const [currentPage, setCurrentPage]   = useState();
@@ -200,20 +200,20 @@ const DataTable = (props) => {
   }
 
   const handlePopup = item => {
-    setShowModal(true);
+    props.setShowModal(true);
     setSelectedItem(item);
   }
 
   useEffect(() => {
-    if(showModal){
+    if(props.showModal){
       Helpers.addClass('.action > .btn', 'btn-block');
     }
-  }, [showModal]);
+  }, [props.showModal]);
 
   const allButtonAction = (item) => {
-    const addButton = data => props.addButtonActions ? props.addButtonActions(data) : null;
+    const addButton = (data) => props.addButtonActions ? props.addButtonActions(data) : null;
 
-    const data = item ? item : selectedItem;
+    let data = item ? item : selectedItem;
 
     return (
       <div className="action">
@@ -236,6 +236,8 @@ const DataTable = (props) => {
   }
 
   const handleDelete = (data) => {
+    props.setShowModal(false);
+
     Swal.fire({
       icon: 'question',
       text: 'Anda yakin ingin menghapus data ini ?',
@@ -255,7 +257,7 @@ const DataTable = (props) => {
             let alert = Helpers.alert(result);
             if(alert == 200){
               setRemove(true);
-              setShowModal(false);
+              props.setShowModal(false);
             }
         }).catch(function (response) {
             let result = {
@@ -314,14 +316,14 @@ const DataTable = (props) => {
 
   const passing = {
     state: state,
-    showModal: showModal,
+    // showModal: showModal,
     brokenUrl: brokenUrl,
     dataList: value => dataList(value),
     pageList: value => pageList(value),
     setSearch: value => setSearch(value),
     changePage: value => changePage(value),
     columnList: value => columnList(value),
-    setShowModal: value => setShowModal(value),
+    // setShowModal: value => setShowModal(value),
     handleSearch: value => handleSearch(value),
     allButtonAction: () => allButtonAction(),
 }

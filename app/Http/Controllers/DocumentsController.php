@@ -85,13 +85,16 @@ class DocumentsController extends Controller
             ]);
         }
 
-        $print = $this->print();
+        $print      = $this->print();
+
+        $temp       = asset('files/'.$data->file);
 
         if($print){
             return response()->json([
                 'status'    => 200,
                 'id'        => $data->id,
                 'data'      => 'Data Berhasil Terkirim',
+                'file'      => $temp,
             ]);
         }else{
             return response()->json([
@@ -120,13 +123,6 @@ class DocumentsController extends Controller
             'data'      => 'Data Berhasil Dihapus',
             'status'    => 200,
         ]);
-    }
-
-    public function file($id)
-    {
-        $data = Document::findOrFail($id);
-        $temp = asset('files/'.$data->file);
-        return redirect($temp);
     }
 
     private function print()
@@ -171,7 +167,7 @@ class DocumentsController extends Controller
     {
         $makingWord->setValue('${person_in_charge}', $this->personInCharge(1, true)->label);
         $makingWord->setValue('${nip}', $this->personInCharge(1, true)->otherData['nip']);
-        if(request('person') == 3){
+        if(request('person') == '3'){
             $makingWord->setValue('${person_in_charge_two}', $this->personInCharge(2, true)->label);
             $makingWord->setValue('${nip_two}', $this->personInCharge(2, true)->otherData['nip']);
             $makingWord->setValue('${person_in_charge_three}', $this->personInCharge(3, true)->label);

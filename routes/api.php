@@ -26,7 +26,6 @@ Route::group(['prefix' => 'document', 'name' => 'document.'], function(){
     Route::post('/update/{id}', 'DocumentsController@update')->name('update');
     Route::post('/delete/{id}', 'DocumentsController@destroy')->name('delete');
 
-    Route::get('/file/{id}', 'DocumentsController@file')->name('file');
     Route::get('/sequence-letter', 'DocumentsController@sequenceLetter')->name('sequenceLetter');
 });
 Route::group(['prefix' => 'person-in-charge', 'name' => 'personInCharge.'], function(){

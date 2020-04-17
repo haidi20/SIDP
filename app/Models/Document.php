@@ -7,7 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Document extends Model
 {
     protected $dates    = ['time_in_charge'];
-    protected $appends  = ['set_contract_value', 'set_time_in_charge'];
+    protected $appends  = [
+        'set_contract_value', 'set_time_in_charge', 'person_one_name',
+        'person_two_name', 'person_three_name', 'name_activity'
+    ];
 
     public function job()
     {
@@ -62,5 +65,33 @@ class Document extends Model
     public function getSetTimeInChargeAttribute()
     {
         return $this->time_in_charge->format('m/d/Y');
+    }
+
+    public function getPersonOneNameAttribute()
+    {
+        if($this->personChargeOne){
+            return $this->personChargeOne->name;
+        }
+    }
+
+    public function getPersontwoNameAttribute()
+    {
+        if($this->personChargetwo){
+            return $this->personChargetwo->name;
+        }
+    }
+
+    public function getPersonthreeNameAttribute()
+    {
+        if($this->personChargethree){
+            return $this->personChargethree->name;
+        }
+    }
+
+    public function getNameActivityAttribute()
+    {
+        if($this->activity){
+            return $this->activity->name;
+        }
     }
 }

@@ -32,7 +32,7 @@ class PersonInChargeController extends Controller
     public function store(Request $request)
     {
         $checkNip = PersonCharge::where('nip', request('nip'))->first();
-        // if($checkNip) return response()->json(['data' => 'Maaf, NIP Tidak Boleh Sama', 'status' => 400]);
+        if($checkNip) return response()->json(['data' => 'Maaf, NIP Tidak Boleh Sama', 'status' => 400]);
 
         try {
             $data       = New PersonCharge();

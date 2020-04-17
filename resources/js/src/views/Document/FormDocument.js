@@ -296,11 +296,9 @@ const formDocument = (props) => {
                 let alert = Helpers.alert(result);
 
                 if(alert == 200){
-                    window.open(Config.baseUrl + '/document/file/'+result.id, '_blank', "width=1, height=1");
+                    window.open(result.file, '_blank');
                     
-                    setTimeout(() => {
-                        history.push("/document");
-                    }, 2000);
+                    history.push("/document");
                 }
             }).catch(function (response) {
                 let result = {
