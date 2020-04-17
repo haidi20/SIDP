@@ -9,7 +9,7 @@ class Document extends Model
     protected $dates    = ['time_in_charge'];
     protected $appends  = [
         'set_contract_value', 'set_time_in_charge', 'person_one_name',
-        'person_two_name', 'person_three_name', 'name_activity'
+        'person_two_name', 'person_three_name', 'name_activity', 'name_job'
     ];
 
     public function job()
@@ -92,6 +92,13 @@ class Document extends Model
     {
         if($this->activity){
             return $this->activity->name;
+        }
+    }
+
+    public function getNameJobAttribute()
+    {
+        if($this->job){
+            return $this->job->name;
         }
     }
 }

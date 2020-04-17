@@ -16,6 +16,7 @@ const document = () => {
     const nameRoute     = '/document';
     
     const [document, setDocument]   = useState();
+    const [loading, setLoading]     = useState(false);
     const [showModal, setShowModal] = useState(false);
 
     const [showModalDatatable, setShowModalDatatable] = useState(false);
@@ -30,6 +31,9 @@ const document = () => {
 
     const handleDetail = async (data) => {
         // console.log(data);
+        setLoading(true);
+        setShowModal(true);
+        setShowModalDatatable(false);
         await axios({
             method: 'get',
             url: nameRoute+'/edit/'+data.id,
@@ -37,9 +41,8 @@ const document = () => {
             let result = res.data;
 
             // console.log(result)
-            setShowModal(true);
             setDocument(result);
-            setShowModalDatatable(false);
+            setLoading(false);
         }).catch(function (response) {
             let result = {
                 data: 'Maaf, Ada Kesalahan Sistem',
@@ -52,6 +55,7 @@ const document = () => {
     return(
         <div>
             <DetailDocument 
+                loading={loading}
                 document={document}
                 showModal={showModal}
                 setShowModal={() => setShowModal()}

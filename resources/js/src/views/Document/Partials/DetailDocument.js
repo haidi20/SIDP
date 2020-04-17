@@ -6,13 +6,20 @@ const detailDocument = props => {
     const data      = props.document;
 
     const dataList = () => {
-        
-        if(data){
+        if(props.loading){
+            return(
+                <tr>
+                    <td key={0} colSpan={2} className="text-center">Loading...</td>
+                </tr>
+            )
+        }else if(data){
             const rowData   = [
                 {column: 'Nomor Surat', data: data.number_letter},
                 {column: 'PaHP 1', data: data.person_one_name},
                 {column: 'PaHP 2', data: data.person_two_name},
                 {column: 'PaHP 3', data: data.person_three_name},
+                {column: 'Nama Kegiatan', data: data.name_activity},
+                {column: 'Nama Kode Rekening', data: data.name_job},
             ];
 
             return rowData
@@ -50,7 +57,7 @@ const detailDocument = props => {
                     <table className="table table-styling table-sm">
                         <thead>
                             <tr>
-                                <th>Kolom</th>
+                                <th style={{textAlign: 'left'}}>Kolom</th>
                                 <th>data</th>
                             </tr>
                         </thead>

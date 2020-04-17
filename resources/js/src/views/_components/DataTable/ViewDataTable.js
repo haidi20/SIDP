@@ -81,7 +81,7 @@ const viewDataTable = (props) => {
             </div>
             {
                 <div className="">
-                    <table className="table table-styling table-sm">
+                    <table className="table datatable table-styling table-sm">
                         <thead>
                             { props.columnList() }
                         </thead>
