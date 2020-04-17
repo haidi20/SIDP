@@ -290,7 +290,7 @@ const formDocument = (props) => {
                 url: handleUrl(),
                 params: data,
             }).then(res => {
-                console.log(res);
+                // console.log(res);
                 let result = res.data;
 
                 let alert = Helpers.alert(result);

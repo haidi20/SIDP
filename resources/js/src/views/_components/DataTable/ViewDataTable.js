@@ -115,9 +115,6 @@ const viewDataTable = (props) => {
                         </nav>
                     }
                 </div>
-                // props.noData || props.brokenUrl
-                // ? null
-                // : 
             }
         </div>
     )

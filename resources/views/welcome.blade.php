@@ -13,7 +13,6 @@
     @include('loading')
     <div id="app"></div>
     @include('script-bottom');
- 
 
     <script src="{{ asset('js/app.js') }}"></script>
   </body>

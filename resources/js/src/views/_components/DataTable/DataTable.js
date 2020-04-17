@@ -20,10 +20,10 @@ const DataTable = (props) => {
   const [loading, setLoading]           = useState(true);
   const [brokenUrl, setBrokenUrl]       = useState(false);
   const [showModal, setShowModal]       = useState(false);
-  const [selectedItem, setSelectedItem] = useState({});
   const [widthAction, setWidthAction]   = useState(100);
   const [clickSearch, setClickSearch]   = useState(false);
   const [currentPage, setCurrentPage]   = useState();
+  const [selectedItem, setSelectedItem] = useState({});
   const [state, setState] = useState({
     entities: {
       data: [],
@@ -51,7 +51,7 @@ const DataTable = (props) => {
   }
 
   const fetchEntities = async () => {
-    let fetchUrl = `${props.url}/?page=${currentPage}&column=${state.sorted_column}&order=${state.order}&per_page=${state.entities.meta.per_page}`;
+    let fetchUrl = `${props.nameRoute}/?page=${currentPage}&column=${state.sorted_column}&order=${state.order}&per_page=${state.entities.meta.per_page}`;
     await axios.get(fetchUrl,{
       params: {
         search: search,
@@ -248,7 +248,7 @@ const DataTable = (props) => {
       if(result.value){
         axios({
             method: 'post',
-            url: props.url+'/delete/'+data.id,
+            url: props.nameRoute+'/delete/'+data.id,
         }).then(res => {
             let result = res.data;
             

@@ -32,7 +32,7 @@ class DocumentsController extends Controller
 
         if($count){
             if($data){
-                return $count->sequence_letter;
+                return $data->sequence_letter;
             }else{
                 return $count->sequence_letter + 1;
             }
@@ -61,7 +61,6 @@ class DocumentsController extends Controller
 
     public function save($id = null)
     {
-        // return request()->all();
         try {
             $data   = $id ? Document::findOrFail($id) : New Document();
             $data->person_in_charge_one     = $this->personInCharge(1);
@@ -133,8 +132,9 @@ class DocumentsController extends Controller
     private function print()
     {
         $file               = request('person') == 1 ? 'source1' : 'source2';
-        $time_in_charge     = $this->timeInCharge();
         $rek_code           = (object) json_decode(request('rek_code'), true);
+        $time_in_charge     = $this->timeInCharge();
+        $dateAgreementLetter= Carbon::parse(request('date_agreement_letter'))->format('d F Y');
 
         $domPdfPath = base_path( 'vendor/dompdf/dompdf');
         $makingWord = new \PhpOffice\PhpWord\TemplateProcessor(public_path('files/'.$file.'.docx'));
@@ -150,7 +150,7 @@ class DocumentsController extends Controller
         $makingWord->setValue('${contract_value}', format_money(request('contract_value')));
         $makingWord->setValue('${information}', request('information'));
         $makingWord->setValue('${number_agreement_letter}', request('number_agreement_letter'));
-        $makingWord->setValue('${date_agreement_letter}', request('date_agreement_letter'));
+        $makingWord->setValue('${date_agreement_letter}', $dateAgreementLetter);
         $nameFile = $this->fileNameLetter();
         $tempFile = 'files/'.$nameFile;
         $makingWord->saveAs($tempFile);
