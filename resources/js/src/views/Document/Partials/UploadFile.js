@@ -9,9 +9,16 @@ import {validateFile} from '../../../supports/Helpers';
 
 const detailDocument = props => {
 
-    const fileInput                 = useRef(null);
-    const [color, setColor]         = useState('#01A9AC');
-    const [nameFile, setNameFile]   = useState('Upload a file');
+    const initialState = {
+        disabled: true,
+        color: '#01A9AC',
+        nameFile: 'Upload a file',
+    }
+    
+    const fileInput = useRef(null);
+    const [color, setColor]         = useState(initialState.color);
+    const [nameFile, setNameFile]   = useState(initialState.nameFile);
+    const [disabled, setDisabled]   = useState(initialState.disabled);
 
     const styled = {
         upload: {
@@ -21,18 +28,44 @@ const detailDocument = props => {
         },
     }
 
+    const closeModal = () => {
+        setColor(initialState.color);
+        setNameFile(initialState.nameFile);
+        setDisabled(initialState.disabled);
+        props.setShowModal(false);
+    }
+
     const getFile = (e) => {
         let dataFile = e.target.files[0];
 
+        if(!dataFile) return false;
+
         console.log(dataFile.type);
         console.log(validateFile(dataFile.type));
+        if(validateFile(dataFile.type)){
+            setDisabled(false);
+            setColor('#01A9AC');
+            setNameFile(dataFile.name);
+        }else{
+            setColor('red');
+            setDisabled(true);
+            setNameFile('Upload File Hanya Bisa Word/PDf');
+        }
+    }
+
+    const colorSend = () => {
+        return disabled ? 'secondary' : 'success';
+    }
+
+    const handleSend = () => {
+        console.log('send');
     }
 
     return(
         <Modal 
             size="md"
             show={props.showModal} 
-            onHide={() => props.setShowModal(false)}
+            onHide={() => closeModal()}
         >
             {/* <Modal.Header closeButton> */}
             <Modal.Header>
@@ -46,10 +79,10 @@ const detailDocument = props => {
                 </div>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" className="pull-left" onClick={() => props.setShowModal(false)}>
+                <Button variant="danger" className="pull-left" onClick={() => closeModal()}>
                     Tutup
                 </Button>
-                <Button variant="success">
+                <Button variant={colorSend()} disabled={disabled} onClick={() => handleSend()}>
                     Kirim
                 </Button>
             </Modal.Footer>
