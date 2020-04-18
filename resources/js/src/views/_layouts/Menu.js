@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
 const menu = (props) => {
     const [state, setState] = useState({
@@ -12,39 +12,51 @@ const menu = (props) => {
         });
     }
 
+    const getActiveClass = (path) => {
+        const subMenu = ['/job', '/person-in-charge', '/activity'];
+
+        if(subMenu.indexOf(props.location.pathname) >= 0 ){
+            if(path === '/settings'){
+                return 'active pcoded-trigger';
+            }
+        }
+
+        return props.location.pathname === path ? 'active' : null;
+    }
+
     return(
         <div>
             <nav className="pcoded-navbar">
                 <div className="pcoded-inner-navbar main-menu">
                     <div className="pcoded-navigatio-lavel">Menus</div>
                     <ul className="pcoded-item pcoded-left-item">
-                    <li >
-                        <Link to="/" onClick={e => setActiveMenu(e)}>
+                    <li className={getActiveClass('/')}>
+                        <Link to="/">
                             <span className="pcoded-micon">
                                 <i className="icofont icofont-dashboard-web" />
                             </span>
                             <span className="pcoded-mtext">Dashboard</span>
                         </Link>
                     </li>
-                    <li className="pcoded-hasmenu" style={{"cursor":"pointer"}}>
-                        <a onClick={e => setActiveMenu(e)}>
+                    <li className={`pcoded-hasmenu ${getActiveClass('/settings')}`} style={{"cursor":"pointer"}}>
+                        <a >
                             <span className="pcoded-micon"><i className="ti-settings" /></span>
                             <span className="pcoded-mtext">Pengaturan</span>
                         </a>
                         <ul className="pcoded-submenu">
-                            <li>
+                            <li className={getActiveClass('/person-in-charge')}>
                                 <Link to="/person-in-charge">
                                     <span className="pcoded-micon"><i className="feather icon-home" /></span>
                                     <span className="pcoded-mtext">Pejabat PaHP</span>
                                 </Link>
                             </li>
-                            <li>
+                            <li className={getActiveClass('/job')}>
                                 <Link to="/job">
                                     <span className="pcoded-micon"><i className="feather icon-home" /></span>
                                     <span className="pcoded-mtext">Kode Rekening Belanja</span>
                                 </Link>
                             </li>
-                            <li>
+                            <li className={getActiveClass('/activity')}>
                                 <Link to="/activity">
                                     <span className="pcoded-micon"><i className="feather icon-home" /></span>
                                     <span className="pcoded-mtext">Kegiatan</span>
@@ -52,8 +64,8 @@ const menu = (props) => {
                             </li>
                         </ul>
                     </li>
-                    <li>
-                        <Link to="/document" onClick={e => setActiveMenu(e)}>
+                    <li className={getActiveClass('/document')}>
+                        <Link to="/document">
                             <span className="pcoded-micon">
                                 <i className="ti-write"></i>
                             </span>
@@ -85,4 +97,4 @@ const menu = (props) => {
     )
 }
 
-export default menu;
+export default withRouter(menu);

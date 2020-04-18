@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {
-    BrowserRouter as Router,
-    HashRouter,
+    Route,
     Switch,
-    Route
+    HashRouter,
+    BrowserRouter as Router,
   } from "react-router-dom";
 
 import MainLayout from '../views/_layouts/MainLayout';
