@@ -66,7 +66,7 @@ const viewDataTable = (props) => {
             </Modal>
             <div className="row head">
                 <div className="col-md-4">
-                <Link to={props.nameRoute+'-form'} title="Back" className={`btn btn-md btn-success ${disabled()}`}>
+                <Link to={props.nameRoute+'/form'} title="Back" className={`btn btn-md btn-success ${disabled()}`}>
                     <span>Buat</span>
                 </Link>
                 </div>

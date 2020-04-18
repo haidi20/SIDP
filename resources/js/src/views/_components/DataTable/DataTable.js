@@ -230,7 +230,7 @@ const DataTable = (props) => {
 
   const handleEdit = (data) => {
     history.push({
-        pathname: props.nameRoute+"-form",
+        pathname: props.nameRoute+"/form",
         state: data,
     });
   }

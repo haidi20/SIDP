@@ -32,17 +32,17 @@ const web = () => (
                     <Route path="/" exact component={Dashboard} />
                     <Route path="/empty" component={Empty} />
                     {/* route document */}
-                    <Route path="/document" component={Document} />                  
-                    <Route path="/document-form" component={FormDocument} /> 
+                    <Route path="/document" exact component={Document} />                  
+                    <Route path="/document/form" component={FormDocument} /> 
                     {/* route person in charge  */}
-                    <Route path="/person-in-charge" component={PersonInCharge} />
-                    <Route path="/person-in-charge-form" component={FormPersonInCharge} />
+                    <Route path="/person-in-charge" exact component={PersonInCharge}/>
+                    <Route path="/person-in-charge/form" component={FormPersonInCharge} />
                     {/* route jobs */}
-                    <Route path="/job" component={Job} /> 
-                    <Route path="/job-form" component={FormJob} />
+                    <Route path="/job" exact component={Job} /> 
+                    <Route path="/job/form" component={FormJob} />
                     {/* route activities */}
-                    <Route path="/activity" component={Activity} /> 
-                    <Route path="/activity-form" component={FormActivity} />
+                    <Route path="/activity" exact component={Activity} /> 
+                    <Route path="/activity/form" component={FormActivity} />
                 </Switch>                 
             </MainLayout>
         </HashRouter>

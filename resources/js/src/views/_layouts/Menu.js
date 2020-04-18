@@ -2,26 +2,20 @@ import React, {useState} from 'react';
 import { Link, withRouter } from "react-router-dom";
 
 const menu = (props) => {
-    const [state, setState] = useState({
-        activeMenu: 'active', 
-    });
-
-    const setActiveMenu = (e) => {
-        setState({
-            activeMenu: null,
-        });
-    }
 
     const getActiveClass = (path) => {
-        const subMenu = ['/job', '/person-in-charge', '/activity'];
+        const subMenu   = ['/job', '/person-in-charge', '/activity'];
+        const pathName  = props.location.pathname;
+        let subMenuForm = [...subMenu];
+        subMenuForm     = subMenuForm.map(item => item+'/form').indexOf(pathName);
 
-        if(subMenu.indexOf(props.location.pathname) >= 0 ){
+        if( subMenu.indexOf(pathName) >= 0 || subMenuForm >= 0 ){
             if(path === '/settings'){
                 return 'active pcoded-trigger';
             }
         }
 
-        return props.location.pathname === path ? 'active' : null;
+        return pathName === path || pathName === path+'/form' ? 'active' : null;
     }
 
     return(
