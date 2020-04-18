@@ -10,17 +10,11 @@
     height: 300px;
     cursor: pointer;
     font-size: 20px;
-    color: #01A9AC;
+    /* color: #01A9AC; */
     font-weight: bold;
     padding: 8px 20px;
-    border-radius: 8px;
-    border: 2px solid #01A9AC;
-    background-color: white;
-}
-
-.name-file {
-    color: #01A9AC;
-    font-weight: bold;
+    /* border-radius: 8px; */
+    /* border: 2px solid #01A9AC; */
     background-color: white;
 }
 
@@ -28,8 +22,8 @@
     top: 0;
     left: 0;
     opacity: 0;
-    width: 450px;
-    height: 300px;
+    width: 1px;
+    height: 1px;
     cursor: pointer;
     font-size: 90px;
     padding: 8px 20px;

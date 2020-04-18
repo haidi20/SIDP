@@ -166,6 +166,15 @@ const addClass = (elements, myClass) => {
   }
 }
 
+// reference format https://formvalidation.io/guide/validators/file/
+const validateFile = (type) => {
+    if(type === 'application/pdf' || type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'){
+        return true;
+    }else{
+        return false;
+    }
+}
+
 export {
     alert,
     addClass,
@@ -175,5 +184,6 @@ export {
     messageError,
     formatRupiah,
     formatNumber,
+    validateFile,
     removeFormatRupiah,
 }

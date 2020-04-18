@@ -12,6 +12,9 @@ use Carbon\Carbon;
 
 class DocumentsController extends Controller
 {
+    protected $pathPrint    = 'files/print/';
+    protected $pathUpload   = 'files/upload/';
+
     public function index()
     {
         $data = Document::orderBy('created_at', 'desc')->search()->paginate(request('per_page', 5));
@@ -75,7 +78,7 @@ class DocumentsController extends Controller
             $data->number_agreement_letter  = request('number_agreement_letter');
             $data->date_agreement_letter    = request('date_agreement_letter');
             $data->sequence_letter          = request('sequence_letter');
-            $data->file                     = $this->fileNameLetter();
+            $data->file                     = '';
             // return $data;
             $data->save();
         } catch (\Execption $e) {
@@ -86,8 +89,7 @@ class DocumentsController extends Controller
         }
 
         $print      = $this->print();
-
-        $temp       = asset('files/'.$data->file);
+        $temp       = asset($this->pathPrint.$this->fileNameLetter());
 
         if($print){
             return response()->json([
@@ -109,7 +111,7 @@ class DocumentsController extends Controller
     {
         try {
             $data = Document::findOrFail($id);
-            $temp = public_path('files/'.$data->file);
+            $temp = public_path($this->pathPrint.$data->file);
             unlink($temp);
             $data->delete();
         } catch (\Execption $e) {
@@ -123,6 +125,11 @@ class DocumentsController extends Controller
             'data'      => 'Data Berhasil Dihapus',
             'status'    => 200,
         ]);
+    }
+
+    public function upload($id)
+    {
+        return $id;
     }
 
     private function print()
@@ -148,7 +155,7 @@ class DocumentsController extends Controller
         $makingWord->setValue('${number_agreement_letter}', request('number_agreement_letter'));
         $makingWord->setValue('${date_agreement_letter}', $dateAgreementLetter);
         $nameFile = $this->fileNameLetter();
-        $tempFile = 'files/'.$nameFile;
+        $tempFile = $this->pathPrint.$nameFile;
         $makingWord->saveAs($tempFile);
 
         if($makingWord){
