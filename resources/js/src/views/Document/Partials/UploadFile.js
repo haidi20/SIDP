@@ -5,17 +5,21 @@ import { Modal, Button } from 'react-bootstrap';
 import './UploadFile.css';
 
 //helpers
-import {validateFile} from '../../../supports/Helpers';
+import * as Helpers from '../../../supports/Helpers';
+//third party
+import axios from '../../../supports/Axios';
 
 const detailDocument = props => {
 
     const initialState = {
+        file: null,
         disabled: true,
         color: '#01A9AC',
         nameFile: 'Upload a file',
     }
     
     const fileInput = useRef(null);
+    const [file, setFile]           = useState(initialState.file);
     const [color, setColor]         = useState(initialState.color);
     const [nameFile, setNameFile]   = useState(initialState.nameFile);
     const [disabled, setDisabled]   = useState(initialState.disabled);
@@ -29,9 +33,7 @@ const detailDocument = props => {
     }
 
     const closeModal = () => {
-        setColor(initialState.color);
-        setNameFile(initialState.nameFile);
-        setDisabled(initialState.disabled);
+        resetState();
         props.setShowModal(false);
     }
 
@@ -41,8 +43,8 @@ const detailDocument = props => {
         if(!dataFile) return false;
 
         console.log(dataFile.type);
-        console.log(validateFile(dataFile.type));
-        if(validateFile(dataFile.type)){
+        if(Helpers.validateFile(dataFile.type)){
+            setFile(dataFile);
             setDisabled(false);
             setColor('#01A9AC');
             setNameFile(dataFile.name);
@@ -57,8 +59,36 @@ const detailDocument = props => {
         return disabled ? 'secondary' : 'success';
     }
 
-    const handleSend = () => {
-        console.log('send');
+    const handleSend = async () => {
+        let formData = new FormData();
+        formData.append('file', file);
+        formData.append('id', props.document.id);
+
+        await axios({
+            method: 'post',
+            data: formData,
+            url: props.nameRoute+'/upload/'+props.document.id,
+            headers: {'Content-Type': 'multipart/form-data'},
+        }).then(res => {
+            let result  = res.data;
+            Helpers.alert(result);
+            props.setShowModal(false);
+            resetState();
+            props.setIsUpload(true);
+        }).catch(function (ress) {
+            let result = {
+                data: 'Maaf, Ada Kesalahan Sistem',
+                status: 500,
+            }
+            Helpers.alert(result);
+            console.log(ress);
+        });
+    }
+
+    const resetState = () => {
+        setColor(initialState.color);
+        setNameFile(initialState.nameFile);
+        setDisabled(initialState.disabled);
     }
 
     return(

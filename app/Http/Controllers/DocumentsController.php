@@ -128,8 +128,40 @@ class DocumentsController extends Controller
     }
 
     public function upload($id)
-    {
-        return $id;
+    {        
+        if(request()->hasFile('file')){
+            $data = Document::findOrFail($id);
+
+            @unlink(public_path($this->pathUpload.$data->file));
+            $file       = request()->file('file');
+            $extension  = $file->getClientOriginalExtension();
+            $fileName   = str_random(8) . '.' . $extension;
+            $file->move($this->pathUpload, $fileName);
+            
+            if($file){
+                try {
+                    $data->update([
+                        'file'      => $fileName,
+                        'isUpload'  => 1,
+                    ]);
+                } catch (\Execption $e) {
+                    return response()->json([
+                        'data'      => 'Maaf, Data Tidak Berhasil Terkirim',
+                        'status'    => 500,
+                    ]);
+                }
+            }
+
+            return response()->json([
+                'status'    => 200,
+                'data'      => 'Data Berhasil Terkirim',
+            ]);
+        }
+
+        return response()->json([
+            'status'    => 400,
+            'data'      => 'Maaf, File Tidak Ada',
+        ]);
     }
 
     private function print()

@@ -7,9 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Document extends Model
 {
     protected $dates    = ['time_in_charge'];
+    protected $fillable = ['file', 'isUpload'];
     protected $appends  = [
         'set_contract_value', 'set_time_in_charge', 'person_one_name',
-        'person_two_name', 'person_three_name', 'name_activity', 'name_job'
+        'person_two_name', 'person_three_name', 'name_activity', 'name_job',
+        'path_file_download',
     ];
 
     public function job()
@@ -100,5 +102,10 @@ class Document extends Model
         if($this->job){
             return $this->job->name;
         }
+    }
+
+    public function getPathFileDownloadAttribute()
+    {
+        return asset('files/upload/'.$this->file);
     }
 }

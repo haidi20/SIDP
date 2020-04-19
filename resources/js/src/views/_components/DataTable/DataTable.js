@@ -61,7 +61,7 @@ const DataTable = (props) => {
         let data = response.data;
 
         if(data.data === undefined){
-          console.log('bukan array')
+          console.log('bukan array');
           setBrokenUrl(true);
         }else{
           if(Array.isArray(data) && data.length){

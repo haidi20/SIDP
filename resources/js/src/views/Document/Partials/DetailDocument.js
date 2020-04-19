@@ -6,13 +6,7 @@ const detailDocument = props => {
     const data      = props.document;
 
     const dataList = () => {
-        if(props.loading){
-            return(
-                <tr>
-                    <td key={0} colSpan={2} className="text-center">Loading...</td>
-                </tr>
-            )
-        }else if(data){
+        if(data){
             const rowData   = [
                 {column: 'Nomor Surat', data: data.number_letter},
                 {column: 'PaHP 1', data: data.person_one_name},
