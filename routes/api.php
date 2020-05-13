@@ -13,9 +13,9 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 Route::group(['prefix' => 'document', 'name' => 'document.'], function(){
     Route::get('/', 'DocumentsController@index')->name('index');
@@ -41,10 +41,16 @@ Route::group(['prefix' => 'job', 'name' => 'job.'], function(){
     Route::post('/update/{id}', 'JobsController@update')->name('update');
     Route::post('/delete/{id}', 'JobsController@destroy')->name('delete');
 });
-Route::group(['prefix' => 'activity', 'name' => 'job.'], function(){
+Route::group(['prefix' => 'activity', 'name' => 'activity.'], function(){
     Route::get('/', 'ActivitiesController@index')->name('index');
     Route::get('/fetch-data', 'ActivitiesController@fetchData')->name('fetchData');
     Route::post('/store', 'ActivitiesController@store')->name('store');
     Route::post('/update/{id}', 'ActivitiesController@update')->name('update');
     Route::post('/delete/{id}', 'ActivitiesController@destroy')->name('delete');
+});
+Route::group(['prefix' => 'user', 'name' => 'user.'], function(){
+    Route::get('/', 'UsersController@index')->name('index');
+    Route::post('/store', 'UsersController@store')->name('store');
+    Route::post('/update/{id}', 'UsersController@update')->name('update');
+    Route::post('/delete/{id}', 'UsersController@destroy')->name('delete');
 });

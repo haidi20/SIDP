@@ -23,6 +23,9 @@ import FormJob from '../views/Job/FormJob';
 // jobs
 import Activity from '../views/Activity/Activity';
 import FormActivity from '../views/Activity/FormActivity';
+// users
+import User from '../views/User/User';
+import FormUser from '../views/User/FormUser';
 
 const web = () => (
     <Router>
@@ -43,6 +46,9 @@ const web = () => (
                     {/* route activities */}
                     <Route path="/activity" exact component={Activity} /> 
                     <Route path="/activity/form" component={FormActivity} />
+                     {/* route user */}
+                     <Route path="/user" exact component={User} /> 
+                     <Route path="/user/form" component={FormUser} /> 
                 </Switch>                 
             </MainLayout>
         </HashRouter>

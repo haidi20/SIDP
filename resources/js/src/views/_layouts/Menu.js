@@ -4,7 +4,7 @@ import { Link, withRouter } from "react-router-dom";
 const menu = (props) => {
 
     const getActiveClass = (path) => {
-        const subMenu   = ['/job', '/person-in-charge', '/activity'];
+        const subMenu   = ['/job', '/person-in-charge', '/activity', '/user'];
         const pathName  = props.location.pathname;
         let subMenuForm = [...subMenu];
         subMenuForm     = subMenuForm.map(item => item+'/form').indexOf(pathName);
@@ -54,6 +54,12 @@ const menu = (props) => {
                                 <Link to="/activity">
                                     <span className="pcoded-micon"><i className="feather icon-home" /></span>
                                     <span className="pcoded-mtext">Kegiatan</span>
+                                </Link>
+                            </li>
+                            <li className={getActiveClass('/user')}>
+                                <Link to="/user">
+                                    <span className="pcoded-micon"><i className="feather icon-home" /></span>
+                                    <span className="pcoded-mtext">User</span>
                                 </Link>
                             </li>
                         </ul>

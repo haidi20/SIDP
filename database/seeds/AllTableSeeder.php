@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-// use DB;
+use App\User;
 
 class AllTableSeeder extends Seeder
 {
@@ -18,5 +18,20 @@ class AllTableSeeder extends Seeder
 
         //collect contents and pass to DB::unprepared
         DB::unprepared(file_get_contents($sql));
+
+        User::insert([
+            [
+                'name'              => 'admin',
+                'role'              => 'admin',
+                'password'          => bcrypt('admin'), // secret
+                'remember_token'    => str_random(10),
+            ],
+            [
+                'name'              => 'user',
+                'role'              => 'user',
+                'password'          => bcrypt('user'), // secret
+                'remember_token'    => str_random(10),
+            ],
+        ]);
     }
 }

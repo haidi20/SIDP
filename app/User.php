@@ -27,4 +27,22 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    protected $appends = ['label'];
+
+    public function ableColumnSearch()
+    {
+        return ['name'];
+    }
+
+    public function scopeSearch($query)
+    {
+        foreach($this->ableColumnSearch() as $item){
+            $query->orWhere($item, 'like', '%'.request('search').'%');
+        }
+    }
+
+    public function getLabelAttribute()
+    {
+        return $this->code;
+    }
 }
