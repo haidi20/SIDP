@@ -6,6 +6,9 @@ import DataTable from '../_components/DataTable/DataTable';
 const job = () => {
     const columns   = ['Nama', 'Kode'];
     const nameRoute = '/job';
+    const baseDomain = document.head.querySelector('meta[name="api-base-url"]').content;
+
+    console.log(baseDomain);
 
     const [showModal, setShowModal]   = useState(false);
 

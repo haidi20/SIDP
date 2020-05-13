@@ -17,8 +17,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// $this->get('users', 'UsersController@index')->name('users');
-
 Route::group(['prefix' => 'document', 'name' => 'document.'], function(){
     Route::get('/', 'DocumentsController@index')->name('index');
     Route::get('/edit/{id}', 'DocumentsController@edit')->name('edit');
