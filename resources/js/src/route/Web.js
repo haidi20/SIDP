@@ -1,15 +1,18 @@
-import React, {Component} from 'react';
+import React, {useContext} from 'react';
 import {
     Route,
     Switch,
+    Redirect,
     HashRouter,
     BrowserRouter as Router,
-  } from "react-router-dom";
+} from "react-router-dom";
+import {AuthContext}  from '../views/_auth';
 
 import MainLayout from '../views/_layouts/MainLayout';
 
 // pages
 import Empty from '../views/Empty/Empty';
+import Login from '../views/_auth/Login';
 import Dashboard from '../views/Dashboard/Dashboard';
 // documents
 import Document from '../views/Document/Document';
@@ -27,32 +30,64 @@ import FormActivity from '../views/Activity/FormActivity';
 import User from '../views/User/User';
 import FormUser from '../views/User/FormUser';
 
-const web = () => (
-    <Router>
-        <HashRouter>
-            <MainLayout>
+function PrivateRoute({ children, ...rest }) {
+    const {state} = useContext(AuthContext);
+
+    return (
+      <Route
+        {...rest}
+        render={({ location }) =>
+          state.login ? (
+            children
+          ) : (
+            <Redirect
+              to={{
+                pathname: "/login",
+                state: { from: location }
+              }}
+            />
+          )
+        }
+      />
+    );
+}
+
+const web = props => {
+    const {state} = useContext(AuthContext);
+
+    return(
+        <Router>
+            <HashRouter>
                 <Switch>
-                    <Route path="/" exact component={Dashboard} />
-                    <Route path="/empty" component={Empty} />
-                    {/* route document */}
-                    <Route path="/document" exact component={Document} />                  
-                    <Route path="/document/form" component={FormDocument} /> 
-                    {/* route person in charge  */}
-                    <Route path="/person-in-charge" exact component={PersonInCharge}/>
-                    <Route path="/person-in-charge/form" component={FormPersonInCharge} />
-                    {/* route jobs */}
-                    <Route path="/job" exact component={Job} /> 
-                    <Route path="/job/form" component={FormJob} />
-                    {/* route activities */}
-                    <Route path="/activity" exact component={Activity} /> 
-                    <Route path="/activity/form" component={FormActivity} />
-                     {/* route user */}
-                     <Route path="/user" exact component={User} /> 
-                     <Route path="/user/form" component={FormUser} /> 
+                    <MainLayout>
+                        <Route path="/login" component={Login} />
+                        <Route path="/empty" component={Empty} />
+                        <Route exact path="/">
+                            {state.login ? <Redirect exact to="/dashboard" /> : <Login exact />}
+                        </Route>
+                        <PrivateRoute path="/protected">
+                            <Route path="/dashboard" component={Dashboard} />
+                            {/* route document */}
+                            <Route path="/document" exact component={Document} />                  
+                            <Route path="/document/form" component={FormDocument} /> 
+                            {/* route person in charge  */}
+                            <Route path="/person-in-charge" exact component={PersonInCharge}/>
+                            <Route path="/person-in-charge/form" component={FormPersonInCharge} />
+                            {/* route jobs */}
+                            <Route path="/job" exact component={Job} /> 
+                            <Route path="/job/form" component={FormJob} />
+                            {/* route activities */}
+                            <Route path="/activity" exact component={Activity} /> 
+                            <Route path="/activity/form" component={FormActivity} />
+                            {/* route user */}
+                            <Route path="/user" exact component={User} /> 
+                            <Route path="/user/form" component={FormUser} /> 
+                        </PrivateRoute>
+                    </MainLayout>
                 </Switch>                 
-            </MainLayout>
-        </HashRouter>
-    </Router>
-)
+            </HashRouter>
+        </Router>
+    )
+}
 
 export default web;

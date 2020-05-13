@@ -1,7 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import { Link, withRouter } from "react-router-dom";
+import {AuthContext}  from '../_auth';
 
-const menu = (props) => {
+const menu = props => {
+    const {state} = useContext(AuthContext);
 
     const getActiveClass = (path) => {
         const subMenu   = ['/job', '/person-in-charge', '/activity', '/user'];
@@ -19,13 +21,13 @@ const menu = (props) => {
     }
 
     return(
-        <div>
+        <div style={{display: state.login ? null : 'none'}}>
             <nav className="pcoded-navbar">
                 <div className="pcoded-inner-navbar main-menu">
                     <div className="pcoded-navigatio-lavel">Menus</div>
                     <ul className="pcoded-item pcoded-left-item">
-                    <li className={getActiveClass('/')}>
-                        <Link to="/">
+                    <li className={getActiveClass('/dashboard')}>
+                        <Link to="/dashboard">
                             <span className="pcoded-micon">
                                 <i className="icofont icofont-dashboard-web" />
                             </span>
@@ -70,6 +72,14 @@ const menu = (props) => {
                                 <i className="ti-write"></i>
                             </span>
                             <span className="pcoded-mtext">Document</span>
+                        </Link>
+                    </li>
+                    <li className={getActiveClass('/login')}>
+                        <Link to="/login">
+                            <span className="pcoded-micon">
+                                <i className="ti-write"></i>
+                            </span>
+                            <span className="pcoded-mtext">Login</span>
                         </Link>
                     </li>
                     {/* <li >

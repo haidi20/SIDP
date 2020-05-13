@@ -1,11 +1,14 @@
 import React, {Component} from 'react';
 
+import Auth from './views/_auth';
 import Route from './route/Web';
 
 class Main extends Component {
     render(){
         return(
-            <Route />
+            <Auth>
+                <Route />
+            </Auth>
         )
     }
 }
