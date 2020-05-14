@@ -17,6 +17,10 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
+Route::group(['prefix' => 'auth', 'name' => 'auth.', 'namespace' => 'Auth'], function(){
+    Route::post('login', 'LoginController@login')->name('login');
+});
+
 Route::group(['prefix' => 'document', 'name' => 'document.'], function(){
     Route::get('/', 'DocumentsController@index')->name('index');
     Route::get('/edit/{id}', 'DocumentsController@edit')->name('edit');

@@ -2,7 +2,7 @@ import React from 'react';
 
 const dashboard = () => {
 
-    console.log('dashboard');
+    // console.log('dashboard');
     
     return(
         <div>

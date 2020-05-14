@@ -4,6 +4,7 @@ export const AuthContext = React.createContext();
 
 const initialState = {
   login: false,
+  user: {},
 }
 
 const authReducer = (state, action) => {
