@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form';
 
 
 //helpers
-import Config from '../../supports/Config';
 import * as Helpers from '../../supports/Helpers';
 //third party
 import axios from '../../supports/Axios';

@@ -5,7 +5,6 @@ import axios from '../../supports/Axios';
 //components
 import DataTable from '../_components/DataTable/DataTable';
 // helpers
-import Config from '../../supports/Config';
 import * as Helpers from '../../supports/Helpers';
 // partials
 import UploadFile from './Partials/UploadFile';
@@ -128,7 +127,7 @@ const document = () => {
                                     usePopup
                                     columns={columns}
                                     nameRoute={nameRoute}
-                                    url={Config.baseUrl + nameRoute} 
+                                    url={nameRoute} 
                                     addButtonActions={(data) => addButtonActions(data)}
 
                                     // modal datatable
