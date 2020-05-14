@@ -3,7 +3,7 @@ import { RHFInput } from 'react-hook-form-input';
 import Select from 'react-select';
 
 //third party
-import axios from 'axios';
+import axios from '../../supports/Axios';
 
 const select = (props) => {
     const [state, setState]             = useState([]);

@@ -4,7 +4,11 @@ import {AuthContext} from './index';
 
 const login = props => {
     const history = useHistory();
-    const {handleLogin} = useContext(AuthContext);
+    const {handleLogin, state} = useContext(AuthContext);
+
+    // useEffect(() => {
+    //     console.log(state.login);
+    // }, [state.login])
 
     const send = () => {
         handleLogin();

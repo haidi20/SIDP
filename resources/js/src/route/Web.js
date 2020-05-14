@@ -34,21 +34,16 @@ function PrivateRoute({ children, ...rest }) {
     const {state} = useContext(AuthContext);
 
     return (
-      <Route
-        {...rest}
-        render={({ location }) =>
-          state.login ? (
-            children
-          ) : (
-            <Redirect
-              to={{
-                pathname: "/login",
-                state: { from: location }
-              }}
-            />
-          )
-        }
-      />
+      state.login ? (
+        children
+      ) : (
+        <Redirect
+          to={{
+            pathname: "/login",
+            state: { from: location }
+          }}
+        />
+      )
     );
 }
 
@@ -66,7 +61,7 @@ const web = props => {
                             {state.login ? <Redirect exact to="/dashboard" /> : <Login exact />}
                         </Route>
                         <PrivateRoute path="/protected">
-                            <Route path="/dashboard" component={Dashboard} />
+                            <Route path="/dashboard" exact component={Dashboard} />
                             {/* route document */}
                             <Route path="/document" exact component={Document} />                  
                             <Route path="/document/form" component={FormDocument} /> 

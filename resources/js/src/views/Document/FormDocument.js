@@ -352,9 +352,9 @@ const formDocument = (props) => {
         handleSetContractValue: e => handleSetContractValue(e),
         handleSetDateAgreement: e => handleSetDateAgreement(e),
         // get data from another table
-        fetchWork: Config.baseUrl+'/job/fetch-data',
-        fetchActivities: Config.baseUrl+'/activity/fetch-data',
-        fetchPersonInCharge: Config.baseUrl+'/person-in-charge/fetch-data',
+        fetchWork: '/job/fetch-data',
+        fetchActivities: '/activity/fetch-data',
+        fetchPersonInCharge: '/person-in-charge/fetch-data',
     }
 
     return(
