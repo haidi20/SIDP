@@ -37,8 +37,8 @@ const login = props => {
       
       Helpers.alert(result);
       if(result.status === 200){
-        handleLogin(result.auth);
         setTimeout(() => {
+          handleLogin(result.auth);
           history.push('/');
         }, 1000)
       }

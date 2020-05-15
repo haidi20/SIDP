@@ -11,8 +11,13 @@ class Document extends Model
     protected $appends  = [
         'set_contract_value', 'set_time_in_charge', 'person_one_name',
         'person_two_name', 'person_three_name', 'name_activity', 'name_job',
-        'path_file_download',
+        'path_file_download', 'user_name',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
 
     public function job()
     {
@@ -107,5 +112,12 @@ class Document extends Model
     public function getPathFileDownloadAttribute()
     {
         return asset('files/upload/'.$this->file);
+    }
+
+    public function getUserNameAttribute()
+    {
+        if($this->user){
+          return $this->user->name;
+        }
     }
 }

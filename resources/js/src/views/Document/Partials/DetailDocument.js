@@ -9,6 +9,7 @@ const detailDocument = props => {
         if(data){
             const rowData   = [
                 {column: 'Nomor Surat', data: data.number_letter},
+                {column: 'Membuat Surat', data: data.user_name},
                 {column: 'PaHP 1', data: data.person_one_name},
                 {column: 'PaHP 2', data: data.person_two_name},
                 {column: 'PaHP 3', data: data.person_three_name},

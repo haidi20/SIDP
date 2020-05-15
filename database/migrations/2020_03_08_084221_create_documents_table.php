@@ -15,6 +15,7 @@ class CreateDocumentsTable extends Migration
     {
         Schema::create('documents', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id')->unsigned();
             $table->integer('person_in_charge_one')->default(0);
             $table->integer('person_in_charge_two')->default(0);
             $table->integer('person_in_charge_three')->default(0);

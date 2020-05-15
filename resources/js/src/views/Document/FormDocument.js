@@ -1,6 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { useHistory } from "react-router-dom";
 import { useForm } from 'react-hook-form';
+import {AuthContext} from '../_auth';
 
 
 //helpers
@@ -14,6 +15,7 @@ import Swal from 'sweetalert2';
 import ViewFormDocument from './ViewFormDocument';
 
 const formDocument = (props) => {
+    const {handleLogin, state}  = useContext(AuthContext);
     const history = useHistory();
     const { register, handleSubmit, watch, errors, setValue } = useForm({
         mode: "onChange",
@@ -273,6 +275,7 @@ const formDocument = (props) => {
 
     const handleSend = data => {
         // console.log(data);
+        data.user_id                = state.user.id;
         data.time_in_charge         = moment(timeInCharge).format(formatDate);
         data.contract_value         = Helpers.removeFormatRupiah(data.contract_value);
         data.sequence_letter        = sequenceLetter;

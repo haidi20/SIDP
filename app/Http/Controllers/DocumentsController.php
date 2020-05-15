@@ -66,6 +66,7 @@ class DocumentsController extends Controller
     {
         try {
             $data   = $id ? Document::findOrFail($id) : New Document();
+            $data->user_id                  = request('user_id');
             $data->person_in_charge_one     = $this->personInCharge(1);
             $data->person_in_charge_two     = $this->personInCharge(2);
             $data->person_in_charge_three   = $this->personInCharge(3);

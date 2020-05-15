@@ -78,7 +78,7 @@ const menu = props => {
                             <span className="pcoded-mtext">Document</span>
                         </Link>
                     </li>
-                    <li style={{cursor: 'pointer'}}>
+                    <li className={getActiveClass('/logout')} style={{cursor: 'pointer'}}>
                         <a onClick={logout}>
                             <span className="pcoded-micon">
                                 <i className="fa fa-sign-out"></i>
