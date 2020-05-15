@@ -40,7 +40,7 @@ const login = props => {
         handleLogin(result.auth);
         setTimeout(() => {
           history.push('/');
-        }, 2000)
+        }, 1000)
       }
     }).catch(function (response) {
       let result = {

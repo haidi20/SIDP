@@ -12,6 +12,9 @@ const authReducer = (state, action) => {
     case 'LOGIN': {
       return {login: true, user: action.payload}
     }
+    case 'LOGOUT': {
+      return {login: false, user: null}
+    }
     default:
       return state;
   }
@@ -23,6 +26,7 @@ const AuthProvider = ({children}) => {
   const value = {
     state: state,
     handleLogin: data => dispatch({type: 'LOGIN', payload: data}),
+    handleLogout: () => dispatch({type: 'LOGOUT'}),
   }
 
   return(

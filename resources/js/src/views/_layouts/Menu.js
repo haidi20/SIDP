@@ -3,7 +3,7 @@ import { Link, withRouter } from "react-router-dom";
 import {AuthContext}  from '../_auth';
 
 const menu = props => {
-    const {state} = useContext(AuthContext);
+    const {state, handleLogout} = useContext(AuthContext);
 
     const getActiveClass = (path) => {
         const subMenu   = ['/job', '/person-in-charge', '/activity', '/user'];
@@ -18,6 +18,10 @@ const menu = props => {
         }
 
         return pathName === path || pathName === path+'/form' ? 'active' : null;
+    }
+
+    const logout = props => {
+      handleLogout();
     }
 
     return(
@@ -74,13 +78,13 @@ const menu = props => {
                             <span className="pcoded-mtext">Document</span>
                         </Link>
                     </li>
-                    <li className={getActiveClass('/login')}>
-                        <Link to="/login">
+                    <li style={{cursor: 'pointer'}}>
+                        <a onClick={logout}>
                             <span className="pcoded-micon">
-                                <i className="ti-write"></i>
+                                <i className="fa fa-sign-out"></i>
                             </span>
-                            <span className="pcoded-mtext">Login</span>
-                        </Link>
+                            <span className="pcoded-mtext">Log Out</span>
+                        </a>
                     </li>
                     {/* <li >
                         <Link to="/empty" onClick={e => setActiveMenu(e)}>

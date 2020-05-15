@@ -4,8 +4,6 @@ import {AuthContext} from '../_auth';
 
 const dashboard = () => {
     const {handleLogin, state}  = useContext(AuthContext);
-
-    console.log(state.user);
     
     return(
         <div>
