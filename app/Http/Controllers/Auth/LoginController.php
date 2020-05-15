@@ -47,8 +47,6 @@ class LoginController extends Controller
         'status'    => 500,
       ]);
 
-      // keren
-
         $data = User::where('name', request('name'))->first();
 
         if($data){

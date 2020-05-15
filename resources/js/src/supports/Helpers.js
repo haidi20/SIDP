@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 // third party
 import Swal from 'sweetalert2';
@@ -7,6 +7,8 @@ import Swal from 'sweetalert2';
 // tag e.g : <input>, <label>,
 // name is name in tag html
 // label is name of form
+
+let baseDomain  = document.head.querySelector('meta[name="api-base-url"]').content;
 
 const handleError = (name, tag, errors, personInCharge) => {
     if(tag == 'label' && personInCharge != null){
@@ -100,14 +102,24 @@ const wordLimit = (str, len, status) => {
 const alert = (result) => {
     let icon = '', title = '';
 
+    let audioError    = new Audio(baseDomain + '/audio/error.ogg');
+    let audioSuccess  = new Audio(baseDomain + '/audio/success.ogg');
+    let audioWarning  = new Audio(baseDomain + '/audio/warning.ogg');
+
     if(result.status == 200){
+        audioSuccess.play();
+
         icon    = 'success';
         title   = 'Notification';
     }else if(result.status == 400){
+        audioWarning.play();
+
         icon    = 'warning';
         title   = 'Attention';
     }
     else if(result.status == 500){
+        audioError.play();
+
         icon    = 'error';
         title   = 'Warning';
     }   

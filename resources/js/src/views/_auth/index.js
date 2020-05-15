@@ -10,9 +10,8 @@ const initialState = {
 const authReducer = (state, action) => {
   switch(action.type){
     case 'LOGIN': {
-      return {login: true}
+      return {login: true, user: action.payload}
     }
-
     default:
       return state;
   }
@@ -23,7 +22,7 @@ const AuthProvider = ({children}) => {
 
   const value = {
     state: state,
-    handleLogin: () => dispatch({type: 'LOGIN'}),
+    handleLogin: data => dispatch({type: 'LOGIN', payload: data}),
   }
 
   return(
